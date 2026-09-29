@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content'
+import { getCollection, render } from 'astro:content'
 import Layout from '../layouts/Layout.astro'
 import Hero from '../components/Hero.astro'
 import AuthorCard from '../components/AuthorCard.astro'
@@ -52,7 +52,7 @@ export async function getStaticPaths() {
 }
 
 const { entry, type, previous, next } = Astro.props
-const { Content, headings } = await entry.render()
+const { Content, headings } = await render(entry)
 
 const data = entry.data
 const title = data.title
@@ -75,9 +75,10 @@ const nextSlug = next ? getPostSlug(next) : null
   description={description}
   image={thumbnail || '/logo.png'}
   isNote={isNote}
+  isPost={type === 'post'}
 >
   {type === 'post' ? (
-    <div class="post-layout">
+    <>
       {thumbnail && (
         <img
           src={thumbnail}
@@ -139,9 +140,9 @@ const nextSlug = next ? getPostSlug(next) : null
           <Comments />
         </section>
       )}
-    </div>
+    </>
   ) : (
-    <div class="page-layout">
+    <>
       <Hero
         title={title}
         description={description}
@@ -150,6 +151,6 @@ const nextSlug = next ? getPostSlug(next) : null
       <div id={`article-${entry.slug}`} class="page-article">
         <Content />
       </div>
-    </div>
+    </>
   )}
 </Layout>

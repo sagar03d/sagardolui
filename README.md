@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Personal website, technical blog, and digital garden of **Sagar Dolui** (Senior Full-Stack Engineer), built with Gatsby, React, and Markdown.
+Personal website, technical blog, and digital garden of **Sagar Dolui** (Senior Full-Stack Engineer), built with **Astro**, **React**, and **Markdown**.
 
 ---
 
@@ -10,16 +10,16 @@ Personal website, technical blog, and digital garden of **Sagar Dolui** (Senior 
 
 ### 1. Install Dependencies
 ```bash
-npm install --legacy-peer-deps
+npm install
 ```
 
 ### 2. Start Development Server
 ```bash
-npm start
+npm run dev
 # or
-npm run develop
+npm start
 ```
-The site will be live at `http://localhost:8000/`.
+The site will be live at `http://localhost:4321/`.
 
 ---
 
@@ -32,15 +32,7 @@ npm run build
 
 ### Serve Production Bundle:
 ```bash
-npm run serve
-```
-
----
-
-## 🧹 Clean Cache
-If you ever need to clear Gatsby cache and rebuild:
-```bash
-npm run clean
+npm run preview
 ```
 
 ---

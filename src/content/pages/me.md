@@ -23,19 +23,19 @@ I am a **Senior Full-Stack Engineer** with over **8+ years of experience** archi
 
 ## 💼 Career Highlights
 
-* **Bambinos Learning Solutions** (2021 – Present):
+* **[Bambinos Learning Solutions Pvt Ltd](https://bambinos.live)** (2021 – Present):
   * **Employee of the Year (2022)**.
   * Scaled backend infrastructure to serve **60K+ monthly active users** with **99.99% uptime**.
   * Optimized database query patterns and indexes, slashing API latency from **800ms to 320ms** (60% boost).
   * Led migration to a high-availability Google Cloud Platform environment.
   * Maintained **>90% unit and integration test coverage** across all core services.
 
-* **Arobit Business Solutions** (2019 – 2021):
+* **[Arobit Business Solutions Pvt Ltd](https://www.arobit.com/)** (2019 – 2021):
   * Engineered a robust multi-tenant SaaS backend powering **300K+ users**.
   * Handled financial integrations with **Stripe and Razorpay**, processing **50L+ INR monthly**.
   * Established Dockerized workflows and NGINX load balancing for zero-downtime releases.
 
-* **Wishnet Pvt Ltd** (2018):
+* **[Wishnet Pvt Ltd](https://wishnet.in/)** (2018):
   * Built the **Wishtrip** hospitality booking platform across 5+ properties nationwide.
   * Created automated monitoring tools that decreased SLA breaches by **25%**.
 
@@ -52,7 +52,7 @@ I am a **Senior Full-Stack Engineer** with over **8+ years of experience** archi
 
 * **Bachelor of Computer Applications (B.C.A.) in Artificial Intelligence**  
   *Sainath University (2018)* — **Best Performing Student (2018 Batch)**
-* **Employee of the Year (2022)** — *Bambinos Learning Solutions*
+* **Employee of the Year (2022)** — *[Bambinos Learning Solutions Pvt Ltd](https://bambinos.live)*
 
 ---
 

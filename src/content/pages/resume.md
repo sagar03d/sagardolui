@@ -29,7 +29,7 @@ Senior Full-Stack Engineer with **8+ years of experience** architecting scalable
 
 ## Professional Experience
 
-### **Senior Software Engineer** | Bambinos Learning Solutions
+### **Senior Software Engineer** | [Bambinos Learning Solutions Pvt Ltd](https://bambinos.live)
 *Bengaluru, India* &bull; *Apr 2021 – Present*  
 🏆 **Employee of the Year (2022)**
 
@@ -41,7 +41,7 @@ Senior Full-Stack Engineer with **8+ years of experience** architecting scalable
 
 ---
 
-### **Web Developer** | Arobit Business Solutions
+### **Web Developer** | [Arobit Business Solutions Pvt Ltd](https://www.arobit.com/)
 *Jan 2019 – Mar 2021*
 
 * Engineered a multi-tenant SaaS backend supporting **300K+ users** with multi-domain RESTful APIs.
@@ -50,7 +50,7 @@ Senior Full-Stack Engineer with **8+ years of experience** architecting scalable
 
 ---
 
-### **Web Developer** | Wishnet Pvt Ltd
+### **Web Developer** | [Wishnet Pvt Ltd](https://wishnet.in/)
 *Jan 2018 – Nov 2018*
 
 * Developed the **Wishtrip hotel booking platform** for 5+ nationwide properties.

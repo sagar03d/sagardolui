@@ -11,7 +11,7 @@ thumbnail: '../thumbnails/saas.png'
 
 When scaling a B2B SaaS platform, multi-tenancy enables a single application instance to serve multiple corporate customers while ensuring strict data separation and custom domain routing.
 
-At Arobit Business Solutions, we built a multi-tenant backend architecture serving over **300K+ registered users** and processing **50L+ INR monthly**.
+At [Arobit Business Solutions Pvt Ltd](https://www.arobit.com/), we built a multi-tenant backend architecture serving over **300K+ registered users** and processing **50L+ INR monthly**.
 
 ## Tenant Resolution & Routing
 
