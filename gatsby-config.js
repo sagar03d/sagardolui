@@ -1,10 +1,10 @@
 module.exports = {
   siteMetadata: {
-    title: "Tania Rascia's Website",
-    author: { name: 'Tania Rascia' },
-    siteUrl: 'https://www.taniarascia.com',
+    title: 'Sagar Dolui | Senior Full-Stack Engineer',
+    author: { name: 'Sagar Dolui' },
+    siteUrl: 'https://sagardolui.com',
     description:
-      'Software engineer and open source creator. This is my digital garden.',
+      'Senior Full-Stack Engineer with 8+ years of experience architecting scalable EdTech and SaaS ecosystems.',
   },
   plugins: [
     // ===================================================================================
@@ -70,10 +70,10 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-manifest',
       options: {
-        name: "Tania Rascia's Website",
-        short_name: 'taniarascia.com',
+        name: "Sagar Dolui's Website",
+        short_name: 'sagardolui.com',
         description:
-          'Software engineer and open source creator. This is my digital garden.',
+          'Senior Full-Stack Engineer with 8+ years of experience architecting scalable EdTech and SaaS ecosystems.',
         start_url: '/',
         background_color: 'white',
         // theme_color: '#959af8',
@@ -118,7 +118,7 @@ module.exports = {
                   categories: edge.node.frontmatter.tags,
                   custom_elements: [
                     { 'content:encoded': html },
-                    { author: 'hello@taniarascia.com' },
+                    { author: 'sagar03d@gmail.com' },
                   ],
                 })
               })
@@ -157,7 +157,7 @@ module.exports = {
             }
             `,
             output: '/rss.xml',
-            title: 'Tania Rascia | RSS Feed',
+            title: 'Sagar Dolui | RSS Feed',
           },
         ],
       },

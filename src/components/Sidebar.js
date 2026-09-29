@@ -23,22 +23,17 @@ export const Sidebar = ({
   const subLinks = subNavLinks
   const socialLinks = [
     {
-      url: 'https://taniarascia.substack.com',
-      label: 'Email signup',
+      url: 'mailto:sagar03d@gmail.com',
+      label: 'Email',
       Icon: Mail,
     },
-    { url: 'https://github.com/taniarascia', label: 'GitHub', Icon: GitHub },
+    { url: 'https://github.com/sagar03d', label: 'GitHub', Icon: GitHub },
     {
-      url: 'https://bsky.app/profile/tania.dev',
-      label: 'Bluesky',
+      url: 'https://linkedin.com/in/sagar03d',
+      label: 'LinkedIn',
       Icon: Bluesky,
     },
     { url: '/rss.xml', label: 'RSS feed', Icon: Rss },
-    {
-      url: 'https://taniarascia.github.io/new-moon/',
-      label: 'New Moon',
-      image: newMoon?.publicURL,
-    },
   ]
 
   return (
@@ -50,13 +45,13 @@ export const Sidebar = ({
               <img
                 src={floppyLogo}
                 className="navbar-logo"
-                alt="tania.dev"
-                title="💾"
+                alt="sagar.dev"
+                title="⚡"
                 height="16"
                 width="16"
               />
             </span>
-            <span className="site-name">tania.dev</span>
+            <span className="site-name">sagar.dev</span>
           </Link>
           <div className="flex-align-center">
             <ColorDropdown
@@ -83,8 +78,9 @@ export const Sidebar = ({
       <section className="sidebar-section">
         <div className="sidebar-content">
           <p>
-            I'm <Link to="/me">Tania</Link>, software engineer and open-source
-            creator. This is my digital garden. 🌱
+            I'm <Link to="/me">Sagar</Link>, Senior Full-Stack Engineer with 8+
+            years experience architecting scalable EdTech & SaaS systems.
+            Welcome to my digital garden. 🌱
           </p>
         </div>
       </section>

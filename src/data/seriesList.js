@@ -1,36 +1,30 @@
 export const seriesList = [
   {
-    title: 'How to Code in JavaScript',
-    slug: '/series/how-to-code-in-javascript',
-    icon: 'thumbnails/js.png',
+    title: 'Architecting Scalable EdTech Systems',
+    slug: '/series/architecting-scalable-edtech',
+    icon: 'thumbnails/node.png',
     description:
-      'A course on the fundamentals of the JavaScript language, from syntax and data types to objects, loops, and functions. Originally written for DigitalOcean.',
+      'Lessons learned architecting and scaling platforms to 60K+ monthly active users and 99.99% uptime on GCP.',
   },
   {
-    title: 'Understanding the DOM',
-    slug: '/series/understanding-the-dom',
-    icon: 'thumbnails/dom.png',
+    title: 'PostgreSQL Performance & Indexing',
+    slug: '/series/postgresql-performance',
+    icon: 'thumbnails/postgres.png',
     description:
-      'Learn how to communicate with a web browser by understanding, traversing, and making changes to the Document Object Model. Originally written for DigitalOcean.',
+      'Techniques for deep query optimization, explain analyze breakdown, index tuning, and dropping latency from 800ms to 320ms.',
   },
   {
-    title: 'WordPress from Scratch',
-    slug: '/series/wordpress-from-scratch',
-    icon: 'thumbnails/wp.png',
+    title: 'Production GenAI & RAG Pipelines',
+    slug: '/series/production-genai-rag',
+    icon: 'thumbnails/ai.png',
     description:
-      'The post that started it all for this website! This is a three part series on setting up and customizing a WordPress site from the ground up.',
+      'Building robust retrieval-augmented generation pipelines using LangChain, OpenAI, vector databases, and Node.js.',
   },
   {
-    title: 'Year in Review',
-    slug: '/series/year-in-review',
-    icon: 'thumbnails/writing.png',
+    title: 'Cloud Infrastructure & High Availability',
+    slug: '/series/cloud-infrastructure',
+    icon: 'thumbnails/gcp.png',
     description:
-      'A retrospective on life, work, and goals at the end of each year.',
-  },
-  {
-    title: 'Redesigns of this website',
-    slug: '/series/redesigns',
-    icon: 'images/floppylogo.png',
-    description: 'This site gets tweaked a lot. Read about it!',
+      'Zero-downtime deployments, Kubernetes orchestration, Dockerization, and GCP Compute Engine / Cloud SQL architecture.',
   },
 ]

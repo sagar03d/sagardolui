@@ -36,71 +36,65 @@ export default function Index({ data }) {
         <Hero type="index">
           <div className="hero-wrapper">
             <div>
-              <h1 className="flex-align-center gap">Hey, I'm Tania!</h1>
+              <h1 className="flex-align-center gap">Hey, I'm Sagar!</h1>
               <p className="hero-description hero-tagline">
-                Principal software engineer, writer, all-around nerd.
+                Senior Full-Stack Engineer, System Architect, GenAI Builder.
               </p>
-              <Heading title="A brief timeline" small />
+              <Heading title="Career timeline" small />
               <ul className="hero-eras">
-                <li>
-                  <span className="era-dates">1998&ndash;2006</span>
-                  <span>
-                    Geocities kid, forum-goer, gamer, lover of obscure '80s
-                    bands.
-                  </span>
-                </li>
-                <li>
-                  <span className="era-dates">2007&ndash;2014</span>
-                  <span>
-                    <Link to="/from-cooking-to-coding">Professional chef</Link>:
-                    Culinary degree, 60-hour weeks in Chicago kitchens, line
-                    cook to chef-manager by 22.
-                  </span>
-                </li>
-                <li>
-                  <span className="era-dates">2014&ndash;2020</span>
-                  <span>
-                    <Link to="/how-i-made-a-career-change-into-web-development">
-                      Career change
-                    </Link>
-                    : Unpaid intern by day, cook by night, then junior dev to
-                    senior engineer.{' '}
-                    <Link to="/everything-i-know-as-a-software-developer-without-a-degree">
-                      Wrote everything down
-                    </Link>{' '}
-                    along the way.
-                  </span>
-                </li>
                 <li>
                   <span className="era-dates">2021&ndash;now</span>
                   <span>
-                    <Link to="/resume">Principal software engineer</Link>:
-                    Building design systems, setting technical direction,
-                    shipping features, and still documenting:{' '}
-                    <Link to="/blog">{postCount} posts</Link>,{' '}
-                    <Link to="/me#publications">40+ publications</Link>, and{' '}
-                    <a
-                      href="https://github.com/taniarascia"
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      20,000+ stars on GitHub
-                    </a>
-                    .
+                    <Link to="/resume">Senior Software Engineer</Link> at{' '}
+                    <b>Bambinos Learning Solutions</b> (<i>Employee of the Year 2022</i>):
+                    Scaled backend infrastructure for 60K+ monthly active users with
+                    99.99% uptime. Optimized PostgreSQL indexing and query logic, cutting
+                    API latency from 800ms to 320ms (60% improvement). Led migration to
+                    high-availability GCP (Compute Engine & Cloud SQL), maintained &gt;90%
+                    test coverage, and built real-time WebSocket analytics dashboards in React.
+                  </span>
+                </li>
+                <li>
+                  <span className="era-dates">2019&ndash;2021</span>
+                  <span>
+                    <b>Web Developer</b> at <b>Arobit Business Solutions</b>:
+                    Engineered a multi-tenant SaaS backend supporting 300K+ users with
+                    multi-domain RESTful APIs. Scaled financial operations by integrating
+                    Stripe and Razorpay, processing 50L+ INR monthly with Dockerized
+                    environments and NGINX load balancing.
+                  </span>
+                </li>
+                <li>
+                  <span className="era-dates">2018</span>
+                  <span>
+                    <b>Web Developer</b> at <b>Wishnet Pvt Ltd</b>:
+                    Developed the Wishtrip hospitality booking platform for 5+ nationwide
+                    properties. Reduced SLA breaches by 25% by building automated internal
+                    PHP/MySQL monitoring tools.
+                  </span>
+                </li>
+                <li>
+                  <span className="era-dates">2018</span>
+                  <span>
+                    <b>B.C.A. in Artificial Intelligence</b>, Sainath University:
+                    Graduated as <i>Best Performing Student (2018 Batch)</i>.
                   </span>
                 </li>
               </ul>
               <p className="hero-description">
-                <Link to="/me">Also</Link>: city explorer, weight-lifter,
-                brick-clicker, accordion enthusiast, biker, Magic gatherer,
-                webmaster.
+                <Link to="/me">Projects & Research</Link>: Creator of{' '}
+                <Link to="/sessionorbit-ai-virtual-classroom">SessionOrbit</Link>{' '}
+                (AI Virtual Classroom) and{' '}
+                <Link to="/building-rag-pipelines-with-langchain">Blogineers</Link>{' '}
+                (AI Autoblogging SaaS with LangChain RAG & Supabase).
               </p>
             </div>
             <div className="hero-image-container">
-              <img src="/ram.png" className="hero-image" alt="RAM Ram" />
+              <img src="/ram.png" className="hero-image" alt="Sagar Dolui" />
               <aside className="hero-bubble">
-                Can't remember how to spell my name? Just go to{' '}
-                <a href="https://tania.dev">tania.dev</a>!
+                📍 Bengaluru, India &bull;{' '}
+                <a href="mailto:sagar03d@gmail.com">sagar03d@gmail.com</a> &bull;{' '}
+                <a href="tel:+919088847921">+91-9088847921</a>
               </aside>
             </div>
           </div>
@@ -116,7 +110,7 @@ export default function Index({ data }) {
             title="Shelves"
             slug="/shelves"
             buttonText="All Shelves"
-            description="Hand-picked paths through everything I've written."
+            description="Hand-picked paths through systems architecture, databases, AI, and cloud."
           />
           <div className="cards cards-half">
             {shelvesList.map((shelf) => (
@@ -140,7 +134,7 @@ export default function Index({ data }) {
         <section className="section-index">
           <Heading
             title="Series"
-            description="Some things I wrote span years or dozens of parts."
+            description="In-depth engineering series and architectural case studies."
           />
           <div className="posts">
             {seriesList.map((series) => (
@@ -164,7 +158,7 @@ export default function Index({ data }) {
             title="Projects"
             slug="/projects"
             buttonText="All Projects"
-            description="Open-source projects I've worked on over the years."
+            description="Platforms and systems architected and built over 8+ years."
             icon={github}
           />
 
@@ -176,7 +170,7 @@ export default function Index({ data }) {
                   <div className="card" key={`hightlight-${project.slug}`}>
                     <time>{project.date}</time>
                     <a
-                      href={`https://github.com/taniarascia/${project.slug}`}
+                      href={project.url || `https://github.com/sagar03d/${project.slug}`}
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -189,11 +183,11 @@ export default function Index({ data }) {
                       )}
                       {project.url && (
                         <a href={project.url} target="_blank" rel="noreferrer">
-                          Demo
+                          Link
                         </a>
                       )}
                       <a
-                        href={`https://github.com/taniarascia/${project.slug}`}
+                        href={project.url || `https://github.com/sagar03d/${project.slug}`}
                         target="_blank"
                         rel="noreferrer"
                       >

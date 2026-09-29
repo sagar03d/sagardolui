@@ -6,16 +6,11 @@ export const AuthorCard = () => {
     <aside className="author-card">
       <img src="/ram.png" alt="" width="80" height="80" />
       <p>
-        Hey! I'm Tania, the software engineer tending to this digital garden.
-        You can read <Link to="/me">more about me</Link>, or subscribe by{' '}
-        <a
-          href="https://taniarascia.substack.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          email
-        </a>
-        .
+        Hey! I'm Sagar, Senior Full-Stack Engineer architecting scalable
+        systems and exploring GenAI & cloud architectures. You can read{' '}
+        <Link to="/me">more about me</Link>, explore my{' '}
+        <Link to="/projects">projects</Link>, or reach out via{' '}
+        <a href="mailto:sagar03d@gmail.com">email</a>.
       </p>
     </aside>
   )

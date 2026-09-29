@@ -13,5 +13,5 @@ export const mainNavLinks = [
 export const subNavLinks = [
   { url: '/resume', label: 'Resume' },
   { url: '/topics', label: 'Topics' },
-  { url: 'https://github.com/taniarascia/taniarascia.com', label: 'Source' },
+  { url: 'https://github.com/sagar03d', label: 'GitHub' },
 ]

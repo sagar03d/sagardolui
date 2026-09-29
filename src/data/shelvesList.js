@@ -1,124 +1,69 @@
 export const shelvesList = [
   {
-    title: 'Fundamentals',
+    title: 'Full-Stack Architecture & Systems',
     description:
-      'The guides I wished I had when I was learning how to code. I used to call them the missing instruction manuals of the web. These articles were all game changers for my understanding on topics such as version control, the command line, React, the DOM, and more.',
+      'Guides and architectural patterns for designing resilient, high-throughput web applications, microservices, and multi-tenant platforms.',
     links: [
       {
-        title: 'Introduction to CSS Fundamentals',
-        slug: '/overview-of-css-concepts',
+        title: 'Architecting Scalable EdTech Systems for 60K+ MAU',
+        slug: '/architecting-scalable-edtech-platforms',
       },
       {
-        title: 'Introduction to the Command Line',
-        slug: '/how-to-use-the-command-line-for-apple-macos-and-linux',
+        title: 'Designing Multi-Tenant SaaS Backends Supporting 300K+ Users',
+        slug: '/multi-tenant-saas-architecture',
       },
       {
-        title: 'Introduction to Git for Version Control',
-        slug: '/getting-started-with-git',
+        title: 'Real-Time Dashboards with WebSockets & React',
+        slug: '/real-time-dashboards-with-websockets-react',
       },
-
-      { title: 'Introduction to the DOM', slug: '/introduction-to-the-dom' },
-      { title: 'Introduction to GraphQL', slug: '/introduction-to-graphql' },
       {
-        title: 'How to Connect to an API',
-        slug: '/how-to-connect-to-an-api-with-javascript',
-      },
-      { title: 'How to Use React', slug: '/getting-started-with-react' },
-      { title: 'How to Use Redux', slug: '/redux-react-guide' },
-      { title: 'How to Set Up webpack', slug: '/how-to-use-webpack' },
-      {
-        title: 'How to use Bash Scripts',
-        slug: '/how-to-create-and-use-bash-scripts',
-      },
-      { title: 'Design for Developers', slug: '/design-for-developers' },
-  {
-        title: 'Setting Up a Mac for Development',
-        slug: '/setting-up-a-brand-new-mac-for-development',
+        title: 'Inside SessionOrbit: Designing an AI-Powered Virtual Classroom',
+        slug: '/sessionorbit-ai-virtual-classroom',
       },
     ],
   },
   {
-    title: 'Deep dives',
-    slug: '/topics',
+    title: 'Database Optimization & Performance',
     description:
-      'As my work became more advanced, I started documenting more advanced topics like authorization and authentication, data-driven design, build tools, and architecture.',
+      'Deep dives into database indexing, transaction isolation, connection pooling, and optimizing PostgreSQL queries under heavy load.',
     links: [
       {
-        title: 'React Application Architecture',
-        slug: '/react-architecture-directory-structure',
+        title: 'Optimizing PostgreSQL Query Performance & Indexing at Scale',
+        slug: '/optimizing-postgresql-query-performance',
       },
       {
-        title: 'Bits, Bytes, and Bases',
-        slug: '/bits-bytes-bases-and-a-hex-dump-javascript',
-      },
-      { title: 'OAuth with PKCE', slug: '/oauth-pkce-authorization' },
-      {
-        title: 'Client-side Authentication',
-        slug: '/full-stack-cookies-localstorage-react-express',
-      },
-      { title: 'Data-Driven Forms', slug: '/schema-based-form-system' },
-      {
-        title: 'ECharts for Data Visualization',
-        slug: '/apache-echarts-react',
-      },
-      {
-        title: 'Event Loop, Callbacks, Promises, and Async',
-        slug: '/asynchronous-javascript-event-loop-callbacks-promises-async-await',
-      },
-      {
-        title: 'Keyboard Shortcuts in React',
-        slug: '/keyboard-shortcut-hook-react',
+        title: 'Database Connection Pooling and High-Concurrency Handling',
+        slug: '/database-connection-pooling-concurrency',
       },
     ],
   },
   {
-    title: 'Reinventing the wheel',
-    description: `It's not always necessary, but I like taking things apart to understand how they work. Here are some games and applications I've built.`,
+    title: 'GenAI, RAG & LLM Integrations',
+    description:
+      'Practical guides for implementing GenAI workflows, prompt orchestration, retrieval-augmented generation (RAG), and vector embeddings.',
     links: [
       {
-        title: 'Building a Chip-8 Emulator',
-        slug: '/writing-an-emulator-in-javascript-chip8',
-      },
-
-      {
-        title: 'Building an MVC Application',
-        slug: '/javascript-mvc-todo-app',
-      },
-      { title: 'Building TakeNote', slug: '/building-takenote' },
-      {
-        title: 'Building a Data Table',
-        slug: '/front-end-tables-sort-filter-paginate',
-      },
-      { title: 'Coding a Sokoban Puzzle', slug: '/sokoban-game' },
-
-      {
-        title: 'Coding a Snake Game',
-        slug: '/snake-game-in-javascript',
+        title: 'Building Production RAG Pipelines with Node.js & LangChain',
+        slug: '/building-rag-pipelines-with-langchain',
       },
       {
-        title: 'Roll Your Own Comment System',
-        slug: '/add-comments-to-static-site',
-      },
-      {
-        title: 'Super Mario Memory Game',
-        slug: '/how-to-create-a-memory-game-super-mario-with-plain-javascript',
+        title: 'Cost-Effective LLM Integration with OpenAI & Claude APIs',
+        slug: '/cost-effective-llm-integration',
       },
     ],
   },
   {
-    title: 'Off the clock',
+    title: 'Cloud, DevOps & High Availability',
     description:
-      "Occasionally I'll write about things that aren't related to programming. So far, you'll find an ode to the lore of Animorphs, a writeup on my Keyboard Accordion, and everything I learned building my first PC.",
+      'Strategies for container orchestration, zero-downtime NGINX load balancing, CI/CD automation, and GCP infrastructure.',
     links: [
-      { title: 'The Lore of Animorphs', slug: '/animorphs' },
       {
-        title: 'Online Keyboard Accordion',
-        slug: '/musical-instrument-web-audio-api',
+        title: 'High-Availability Migration to GCP: Compute Engine & Cloud SQL',
+        slug: '/gcp-high-availability-migration',
       },
-      { title: 'Building My First PC', slug: '/building-my-first-pc' },
       {
-        title: 'Backpacking in Europe',
-        slug: '/backpacking-in-europe-planning-and-packing',
+        title: 'Dockerizing Microservices with NGINX Load Balancing',
+        slug: '/dockerizing-microservices-nginx-load-balancing',
       },
     ],
   },

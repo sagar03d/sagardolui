@@ -1,14 +1,14 @@
 const config = {
-  siteTitle: "Tania Rascia's Website",
-  siteAuthor: 'Tania Rascia',
-  siteUrl: 'https://www.taniarascia.com',
+  siteTitle: 'Sagar Dolui',
+  siteAuthor: 'Sagar Dolui',
+  siteUrl: 'https://sagardolui.com',
   siteLogo: '/logo.png',
   description:
-    'Software engineer and open source creator. This is my digital garden.',
+    'Senior Full-Stack Engineer with 8+ years of experience architecting scalable EdTech and SaaS ecosystems.',
   profiles: [
-    'https://github.com/taniarascia',
-    'https://bsky.app/profile/tania.dev',
-    'https://taniarascia.substack.com',
+    'https://github.com/sagar03d',
+    'https://linkedin.com/in/sagar03d',
+    'mailto:sagar03d@gmail.com',
   ],
 }
 

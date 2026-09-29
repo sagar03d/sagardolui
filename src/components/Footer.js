@@ -10,18 +10,14 @@ import { Coffee } from '../assets/Coffee'
 import { Heart } from '../assets/Heart'
 
 const links = [
-  { url: 'https://taniarascia.substack.com', label: 'Email signup', Icon: Mail },
+  { url: 'mailto:sagar03d@gmail.com', label: 'Email', Icon: Mail },
+  { url: 'https://github.com/sagar03d', label: 'GitHub', Icon: Bluesky },
+  { url: 'https://linkedin.com/in/sagar03d', label: 'LinkedIn', Icon: Bluesky },
   { url: '/rss.xml', label: 'RSS feed', Icon: Rss },
-  { url: 'https://bsky.app/profile/tania.dev', label: 'Bluesky', Icon: Bluesky },
-  {
-    url: 'https://ko-fi.com/taniarascia',
-    label: 'Buy me a coffee',
-    Icon: Coffee,
-  },
 ]
 const madeWithLinks = [
   { url: 'https://www.gatsbyjs.org', label: 'Gatsby', icon: gatsby },
-  { url: 'https://github.com/taniarascia', label: 'GitHub', icon: github },
+  { url: 'https://github.com/sagar03d', label: 'GitHub', icon: github },
   { url: 'https://www.netlify.com', label: 'Netlify', icon: netlify },
 ]
 
@@ -59,7 +55,7 @@ export const Footer = () => {
           ))}
         </nav>
         <div className="footer-made-by">
-          Made with <Heart size={14} /> by Tania Rascia
+          Made with <Heart size={14} /> by Sagar Dolui
         </div>
       </section>
     </footer>

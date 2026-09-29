@@ -9,30 +9,30 @@ import { Hero } from '../components/Hero'
 import { PageLayout } from '../components/PageLayout'
 import config from '../utils/config'
 import { projectsList } from '../data/projectsList'
-import { useContentImages } from '../utils/hooks/useContentImages'
 import projects from '../assets/nav-projects.png'
 
 export default function Projects() {
   const [repos, setRepos] = useState([])
-  const imagesByPath = useContentImages()
   const title = 'Projects'
   const description =
-    "Open-source projects I've made over the years, including this website, an emulator, and various games, apps, frameworks, and boilerplates."
+    "Platforms, SaaS backends, and AI architectures I've designed and engineered over 8+ years of professional experience."
 
   useEffect(() => {
     async function getStars() {
-      const repos = await fetch(
-        'https://api.github.com/users/taniarascia/repos?per_page=100'
-      )
-
-      return repos.json()
+      try {
+        const res = await fetch(
+          'https://api.github.com/users/sagar03d/repos?per_page=100'
+        )
+        if (res.ok) {
+          const data = await res.json()
+          setRepos(Array.isArray(data) ? data : [])
+        }
+      } catch (err) {
+        console.error(err)
+      }
     }
 
     getStars()
-      .then((data) => {
-        setRepos(data)
-      })
-      .catch((err) => console.error(err))
   }, [])
 
   return (
@@ -45,18 +45,19 @@ export default function Projects() {
 
         <div className="cards">
           {projectsList.map((project) => {
+            const repo = repos.find((r) => r.name === project.slug)
+
             return (
               <div className="card" key={project.slug}>
                 <div className="stars">
-                  {repos.find((repo) => repo.name === project.slug) && (
+                  {repo && (
                     <div className="star">
                       <a
-                        href={`https://github.com/taniarascia/${project.slug}/stargazers`}
+                        href={`https://github.com/sagar03d/${project.slug}/stargazers`}
+                        target="_blank"
+                        rel="noreferrer"
                       >
-                        {Number(
-                          repos.find((repo) => repo.name === project.slug)
-                            .stargazers_count
-                        ).toLocaleString()}
+                        {Number(repo.stargazers_count).toLocaleString()}
                       </a>
                       <StarIcon />
                     </div>
@@ -65,7 +66,7 @@ export default function Projects() {
                 <time>{project.date}</time>
                 <a
                   className="card-header"
-                  href={`https://github.com/taniarascia/${project.slug}`}
+                  href={project.url || `https://github.com/sagar03d/${project.slug}`}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -76,11 +77,11 @@ export default function Projects() {
                   {project.writeup && <Link to={project.writeup}>Article</Link>}
                   {project.url && (
                     <a href={project.url} target="_blank" rel="noreferrer">
-                      Demo
+                      Link
                     </a>
                   )}
                   <a
-                    href={`https://github.com/taniarascia/${project.slug}`}
+                    href={project.url || `https://github.com/sagar03d/${project.slug}`}
                     target="_blank"
                     rel="noreferrer"
                   >

@@ -186,11 +186,18 @@ const createNode = ({ node, actions, getNode }) => {
 exports.createSchemaCustomization = ({ actions }) => {
   actions.createTypes(`
     type MarkdownRemarkFrontmatter {
+      title: String
+      slug: String
       htmlTitle: String
       format: String
       dated: Boolean
       series: String
+      comments_off: Boolean
+      description: String
+      tags: [String]
+      categories: [String]
       updated: Date @dateformat
+      date: Date @dateformat
     }
   `)
 }

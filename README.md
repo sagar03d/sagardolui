@@ -1,11 +1,50 @@
-# taniarascia.com
+# sagardolui.com
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Netlify Status](https://api.netlify.com/api/v1/badges/0a51d0e9-f611-4dd8-887f-fc1889e68540/deploy-status)](https://app.netlify.com/sites/tania/deploys)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Tania's personal website running on Gatsby, React, and Node.js.
+Personal website, technical blog, and digital garden of **Sagar Dolui** (Senior Full-Stack Engineer), built with Gatsby, React, and Markdown.
 
-**Note**: The source for this site was not created to be a template or theme, but for my own use. Feel free to take whatever inspiration from it that you want, but this code was not written with the intention of being cloned and deployed. As such, I do not provide support or guidance for doing that. I recommend using the [Gatsby Advanced Starter](https://github.com/vagr9k/gatsby-advanced-starter/) to set up a blog or an existing theme created for that purpose.
+---
 
-## License
+## 🚀 Quick Start (Run Locally)
+
+### 1. Install Dependencies
+```bash
+npm install --legacy-peer-deps
+```
+
+### 2. Start Development Server
+```bash
+npm start
+# or
+npm run develop
+```
+The site will be live at `http://localhost:8000/`.
+
+---
+
+## 📦 Build & Production Preview
+
+### Build for Production:
+```bash
+npm run build
+```
+
+### Serve Production Bundle:
+```bash
+npm run serve
+```
+
+---
+
+## 🧹 Clean Cache
+If you ever need to clear Gatsby cache and rebuild:
+```bash
+npm run clean
+```
+
+---
+
+## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).

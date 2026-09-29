@@ -1,9 +1,9 @@
 {
-  "name": "taniarascia.com",
+  "name": "sagardolui.com",
   "private": true,
-  "version": "7.1",
-  "description": "Tania Rascia's personal website.",
-  "author": "Tania Rascia",
+  "version": "1.0.0",
+  "description": "Sagar Dolui's personal website and digital garden.",
+  "author": "Sagar Dolui",
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/taniarascia/taniarascia.com"
+    "url": "https://github.com/sagar03d"
   },
   "dependencies": {
     "@fontsource-variable/google-sans-code": "^5.3.0",
