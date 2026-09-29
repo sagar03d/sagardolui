@@ -1,0 +1,87 @@
+---
+const colors = [
+  'var(--theme-lavender)',
+  'var(--theme-pink)',
+  'var(--theme-yellow)',
+  'var(--theme-green)',
+  'var(--theme-blue)',
+]
+---
+
+<div class="dropdown tooltip-container color-dropdown-container">
+  <button type="button" class="navbar-button color-toggle-btn" aria-label="Choose accent color">
+    <div class="circle current-color-circle" style="background-color: var(--color-primary, var(--theme-pink));"></div>
+  </button>
+  <div class="dropdown-results color-menu hidden">
+    <div class="circles">
+      {colors.map((color) => (
+        <button
+          type="button"
+          class="dropdown-option color-choice"
+          data-color={color}
+          aria-label={`Select color ${color}`}
+        >
+          <div style={`background-color: ${color};`} class="circle"></div>
+        </button>
+      ))}
+    </div>
+  </div>
+  <div class="tooltip">Color</div>
+</div>
+
+<script>
+  function setupColorDropdowns() {
+    const containers = document.querySelectorAll('.color-dropdown-container')
+
+    containers.forEach((container) => {
+      const btn = container.querySelector('.color-toggle-btn')
+      const menu = container.querySelector('.color-menu')
+      const tooltip = container.querySelector('.tooltip')
+      const choices = container.querySelectorAll('.color-choice')
+
+      btn?.addEventListener('click', (e) => {
+        e.stopPropagation()
+        const isHidden = menu?.classList.contains('hidden')
+        // Close all other dropdowns
+        document.querySelectorAll('.color-menu').forEach((m) => m.classList.add('hidden'))
+        document.querySelectorAll('.color-toggle-btn').forEach((b) => b.classList.remove('active'))
+
+        if (isHidden) {
+          menu?.classList.remove('hidden')
+          btn.classList.add('active')
+          tooltip?.classList.add('hidden')
+        } else {
+          menu?.classList.add('hidden')
+          btn.classList.remove('active')
+          tooltip?.classList.remove('hidden')
+        }
+      })
+
+      choices.forEach((choice) => {
+        choice.addEventListener('click', (e) => {
+          e.stopPropagation()
+          const color = (choice as HTMLElement).dataset.color
+          if (color) {
+            localStorage.setItem('color', color)
+            document.documentElement.style.setProperty('--color-primary', color)
+            document.querySelectorAll('.current-color-circle').forEach((c) => {
+              (c as HTMLElement).style.backgroundColor = color
+            })
+          }
+          menu?.classList.add('hidden')
+          btn?.classList.remove('active')
+          tooltip?.classList.remove('hidden')
+        })
+      })
+    })
+
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.color-menu').forEach((m) => m.classList.add('hidden'))
+      document.querySelectorAll('.color-toggle-btn').forEach((b) => b.classList.remove('active'))
+      document.querySelectorAll('.color-dropdown-container .tooltip').forEach((t) => t.classList.remove('hidden'))
+    })
+  }
+
+  setupColorDropdowns()
+  document.addEventListener('astro:page-load', setupColorDropdowns)
+</script>

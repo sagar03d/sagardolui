@@ -1,0 +1,183 @@
+---
+import Post from './Post.astro'
+
+interface Props {
+  data: Array<{
+    id?: string
+    slug: string
+    title: string
+    date?: string
+    description?: string
+    thumbnail?: string
+    tags?: string[]
+  }>
+  detailed?: boolean
+}
+
+const { data = [], detailed = true } = Astro.props
+
+const quickFilters = [
+  { tag: 'edtech', label: 'EdTech', image: '/thumbnails/node.png' },
+  { tag: 'architecture', label: 'Architecture', image: '/thumbnails/gcp.png' },
+  { tag: 'node', label: 'Node', image: '/thumbnails/node.png' },
+  { tag: 'postgresql', label: 'Postgres', image: '/thumbnails/postgres.png' },
+  { tag: 'genai', label: 'GenAI', image: '/thumbnails/ai.png' },
+  { tag: 'gcp', label: 'GCP', image: '/thumbnails/gcp.png' },
+  { tag: 'websockets', label: 'WebSockets', image: '/thumbnails/websockets.png' },
+]
+---
+
+<div class="search-container" id="blog-search-container" data-posts={JSON.stringify(data)}>
+  <div class="quick-filters">
+    {quickFilters.map(({ tag, label, image }) => (
+      <div class="tooltip-container tooltip-above">
+        <button
+          type="button"
+          aria-label={`Filter posts by ${label}`}
+          class="quick-filter"
+          data-tag={tag}
+        >
+          <img src={image} alt="" width="22" height="22" />
+        </button>
+        <div class="tooltip">{label}</div>
+      </div>
+    ))}
+  </div>
+
+  <div class="search-bar" style="margin-bottom: 2.5rem;">
+    <input
+      type="text"
+      id="search-input"
+      placeholder={`Search ${data.length} posts...`}
+      class="input"
+      aria-label="Search posts"
+    />
+    <span class="search-count" id="search-count">{data.length} posts</span>
+  </div>
+
+  <div id="search-results-wrapper">
+    <div class="posts" id="posts-list">
+      {data.map((node) => (
+        <Post node={node} detailed={detailed} />
+      ))}
+    </div>
+    <p id="no-results-msg" class="hidden" style="margin-top: 2rem;">
+      Sorry, nothing matched that search.
+    </p>
+  </div>
+</div>
+
+<script>
+  function setupSearch() {
+    const container = document.getElementById('blog-search-container')
+    if (!container) return
+
+    const rawData = container.dataset.posts
+    if (!rawData) return
+    const allPosts: any[] = JSON.parse(rawData)
+
+    const searchInput = document.getElementById('search-input') as HTMLInputElement | null
+    const postsList = document.getElementById('posts-list')
+    const noResultsMsg = document.getElementById('no-results-msg')
+    const searchCount = document.getElementById('search-count')
+    const filterButtons = container.querySelectorAll('.quick-filter')
+
+    let currentTag = ''
+    let currentQuery = ''
+
+    // Read URL query params on load
+    const urlParams = new URLSearchParams(window.location.search)
+    const initialSearch = urlParams.get('search')
+    if (initialSearch && searchInput) {
+      searchInput.value = initialSearch
+      currentQuery = initialSearch
+      // Check if tag match
+      filterButtons.forEach((btn) => {
+        if ((btn as HTMLElement).dataset.tag === initialSearch) {
+          btn.classList.add('active')
+          currentTag = initialSearch
+        }
+      })
+    }
+
+    const renderFilteredPosts = () => {
+      const q = currentQuery.trim().toLowerCase()
+      const t = currentTag.trim().toLowerCase()
+
+      const filtered = allPosts.filter((post) => {
+        const matchesQuery = !q ||
+          post.title?.toLowerCase().includes(q) ||
+          post.description?.toLowerCase().includes(q) ||
+          (post.tags && post.tags.some((tag: string) => tag.toLowerCase().includes(q)))
+
+        const matchesTag = !t ||
+          (post.tags && post.tags.some((tag: string) => tag.toLowerCase() === t))
+
+        return matchesQuery && matchesTag
+      })
+
+      if (searchCount) {
+        searchCount.textContent = `${filtered.length} ${filtered.length === 1 ? 'post' : 'posts'}`
+      }
+
+      if (postsList) {
+        if (filtered.length === 0) {
+          postsList.innerHTML = ''
+          noResultsMsg?.classList.remove('hidden')
+        } else {
+          noResultsMsg?.classList.add('hidden')
+          postsList.innerHTML = filtered.map((post) => `
+            <a href="${post.slug}" class="post detailed">
+              <div class="post-thumbnail">
+                ${post.thumbnail ? `<img src="${post.thumbnail}" alt="" />` : ''}
+              </div>
+              <div class="post-info">
+                <div class="post-title">
+                  <div>${post.title}</div>
+                </div>
+                ${post.date ? `<time>${post.date}</time>` : ''}
+                ${post.description ? `<p class="post-description">${post.description}</p>` : ''}
+              </div>
+              ${post.tags && post.tags.length > 0 ? `
+                <div class="post-tags">
+                  ${post.tags.map((tag: string) => `<span class="tag">${tag}</span>`).join('')}
+                </div>
+              ` : ''}
+            </a>
+          `).join('')
+        }
+      }
+    }
+
+    if (initialSearch) {
+      renderFilteredPosts()
+    }
+
+    searchInput?.addEventListener('input', (e) => {
+      currentQuery = (e.target as HTMLInputElement).value
+      currentTag = ''
+      filterButtons.forEach((b) => b.classList.remove('active'))
+      renderFilteredPosts()
+    })
+
+    filterButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tag = (btn as HTMLElement).dataset.tag || ''
+        if (currentTag === tag) {
+          currentTag = ''
+          btn.classList.remove('active')
+        } else {
+          currentTag = tag
+          filterButtons.forEach((b) => b.classList.remove('active'))
+          btn.classList.add('active')
+        }
+        if (searchInput) searchInput.value = currentTag
+        currentQuery = currentTag
+        renderFilteredPosts()
+      })
+    })
+  }
+
+  setupSearch()
+  document.addEventListener('astro:page-load', setupSearch)
+</script>

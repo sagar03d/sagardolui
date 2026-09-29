@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content'
+import Heading from './Heading.astro'
+import { shelvesList } from '../data/shelvesList'
+import { slugify, getSimplifiedPosts } from '../utils/helpers'
+
+const rawPosts = await getCollection('posts')
+const posts = getSimplifiedPosts(rawPosts, { thumbnails: true })
+
+const postMap = new Map()
+posts.forEach((p) => {
+  postMap.set(p.slug.replace(/^\//, ''), p)
+})
+---
+
+{shelvesList.map((shelf) => (
+  <section class="section-index" id={slugify(shelf.title)}>
+    <Heading
+      title={shelf.title}
+      description={shelf.description}
+    />
+    <div class="posts shelf">
+      {shelf.links.map((link) => {
+        if ('url' in link && link.url) {
+          return (
+            <a
+              class="post"
+              href={link.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div>{link.title}</div>
+            </a>
+          )
+        }
+
+        const cleanSlug = (link.slug || '').replace(/^\//, '')
+        const matchedPost = postMap.get(cleanSlug)
+        const icon = matchedPost?.thumbnail
+
+        return (
+          <a class="post" href={link.slug}>
+            <div>
+              {icon && <img src={icon} alt="" width="25" height="25" />}
+              <span>{link.title ?? matchedPost?.title}</span>
+            </div>
+          </a>
+        )
+      })}
+    </div>
+  </section>
+))}

@@ -1,0 +1,27 @@
+---
+interface Props {
+  title: string
+  slug?: string
+  buttonText?: string
+  icon?: string
+  description?: string
+  small?: boolean
+}
+
+const { title, slug, buttonText, icon, description, small } = Astro.props
+---
+
+<header class={`heading ${small ? 'small' : ''}`}>
+  <div class="heading-row">
+    <h2>
+      {icon && <img src={icon} alt="" class="heading-icon" />}
+      <span>{title}</span>
+    </h2>
+    {slug && buttonText && (
+      <a href={slug} class="button secondary small">
+        {buttonText}
+      </a>
+    )}
+  </div>
+  {description && <div class="description">{description}</div>}
+</header>

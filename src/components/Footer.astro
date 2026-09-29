@@ -1,0 +1,65 @@
+---
+const links = [
+  {
+    url: 'mailto:sagar03d@gmail.com',
+    label: 'Email',
+    iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>`,
+  },
+  {
+    url: 'https://github.com/sagar03d',
+    label: 'GitHub',
+    iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>`,
+  },
+  {
+    url: 'https://linkedin.com/in/sagar03d',
+    label: 'LinkedIn',
+    iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>`,
+  },
+  {
+    url: '/rss.xml',
+    label: 'RSS feed',
+    iconSvg: `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg>`,
+  },
+]
+
+const madeWithLinks = [
+  { url: 'https://astro.build', label: 'Astro', icon: '/images/floppylogo.png' },
+  { url: 'https://github.com/sagar03d/sagardolui', label: 'GitHub', icon: '/images/nav-github.png' },
+  { url: 'https://vercel.com', label: 'Vercel', icon: '/images/floppylogo.png' },
+]
+---
+
+<footer class="footer">
+  <section class="footer-section">
+    <nav class="footer-menu">
+      {links.map((link) => (
+        <a
+          href={link.url}
+          target={link.url.startsWith('http') ? '_blank' : '_self'}
+          rel="noopener noreferrer"
+          class="footer-link"
+        >
+          <span class="flex-align-center" set:html={link.iconSvg} />
+          {link.label}
+        </a>
+      ))}
+    </nav>
+    <nav class="footer-menu-buttons">
+      {madeWithLinks.map((link) => (
+        <a
+          href={link.url}
+          title={link.label}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="button small"
+        >
+          <img src={link.icon} alt="" width="16" height="16" />
+          <span>{link.label}</span>
+        </a>
+      ))}
+    </nav>
+    <div class="footer-made-by">
+      Made with <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary, #e285a8)" stroke="none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg> by Sagar Dolui
+    </div>
+  </section>
+</footer>

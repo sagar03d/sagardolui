@@ -1,0 +1,57 @@
+---
+import { getFormattedDate, isNewPost } from '../utils/helpers'
+
+interface Props {
+  node: {
+    id?: string
+    slug: string
+    title: string
+    date?: string
+    description?: string
+    thumbnail?: string
+    tags?: string[]
+  }
+  detailed?: boolean
+  prefix?: string
+  includeYear?: boolean
+  number?: number
+}
+
+const { node, detailed = false, prefix, includeYear = false, number } = Astro.props
+
+const formattedDate = node.date ? getFormattedDate(node.date, includeYear ? 2 : 1) : ''
+const isNew = node.date ? isNewPost(node.date) : false
+const postHref = prefix ? `/${prefix}${node.slug}` : node.slug
+---
+
+{detailed ? (
+  <a href={postHref} class="post detailed">
+    <div class="post-thumbnail">
+      {node.thumbnail && <img src={node.thumbnail} alt="" />}
+    </div>
+    <div class="post-info">
+      <div class="post-title">
+        <div>{node.title}</div>
+        {isNew && <div class="button x-small">✨ New</div>}
+      </div>
+      {node.date && <time>{formattedDate}</time>}
+      {node.description && <p class="post-description">{node.description}</p>}
+    </div>
+    {node.tags && node.tags.length > 0 && (
+      <div class="post-tags">
+        {node.tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    )}
+  </a>
+) : (
+  <a href={postHref} class="post">
+    <div>
+      {number && <span class="post-number">{number}.</span>}
+      {isNew && <div class="button x-small">✨ New</div>}
+      <span>{node.title}</span>
+    </div>
+    {node.date && <time>{formattedDate}</time>}
+  </a>
+)}

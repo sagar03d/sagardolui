@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content'
+import Layout from '../layouts/Layout.astro'
+import Hero from '../components/Hero.astro'
+import Search from '../components/Search.astro'
+import { getSimplifiedPosts } from '../utils/helpers'
+
+const allPosts = await getCollection('posts')
+const sortedPosts = allPosts.sort((a, b) => {
+  const dateA = new Date(a.data.date || 0).getTime()
+  const dateB = new Date(b.data.date || 0).getTime()
+  return dateB - dateA
+})
+
+const posts = getSimplifiedPosts(sortedPosts, { thumbnails: true })
+const title = 'Blog'
+const description = 'Guides, tutorials, and notes on code and life.'
+---
+
+<Layout title={title} description={description}>
+  <Hero
+    title={title}
+    hasSearch={true}
+    icon="/images/nav-blog.png"
+  >
+    <div class="hero-description" style="margin-bottom: 0;">
+      {description} <a href="/shelves">Browse the shelves</a>.
+    </div>
+  </Hero>
+
+  <Search data={posts} detailed={true} />
+</Layout>

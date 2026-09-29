@@ -1,24 +1,39 @@
-export function getSimplifiedPosts(posts, options = {}) {
-  return posts.map((post) => ({
-    id: post.node.id,
-    date: post.node.frontmatter.date,
-    slug: post.node.fields.slug,
-    tags: post.node.frontmatter.tags,
-    categories: post.node.frontmatter.categories,
-    title: post.node.frontmatter.title,
-    description: post.node.frontmatter.description,
-    ...(options.thumbnails && {
-      thumbnail: post.node.frontmatter?.thumbnail?.publicURL,
-    }),
-  }))
+import { topicNames } from '../data/topicNames'
+
+export function normalizeThumbnail(thumbnail) {
+  if (!thumbnail) return null
+  if (thumbnail.startsWith('http')) return thumbnail
+  const cleaned = thumbnail.replace(/^(\.\.\/)+/, '').replace(/^thumbnails\//, '')
+  return `/thumbnails/${cleaned}`
 }
 
-export function getTaxonomyFromPosts(posts, taxonomy) {
-  return posts
-    .reduce((acc, post) => {
-      return [...new Set([...acc, ...(post[taxonomy] || [])])]
-    }, [])
-    .sort()
+export function getPostSlug(entry) {
+  if (entry.data?.slug) {
+    return entry.data.slug.startsWith('/') ? entry.data.slug : `/${entry.data.slug}`
+  }
+  const cleanId = entry.slug || entry.id.replace(/\.(md|mdx)$/, '')
+  return cleanId.startsWith('/') ? cleanId : `/${cleanId}`
+}
+
+export function getSimplifiedPosts(posts = [], options = {}) {
+  return posts.map((post) => {
+    const data = post.data || post
+    const slug = getPostSlug(post)
+    const thumbnail = normalizeThumbnail(data.thumbnail)
+
+    return {
+      id: post.id || slug,
+      slug,
+      title: data.title,
+      date: data.date,
+      updated: data.updated,
+      tags: data.tags || [],
+      categories: data.categories || [],
+      series: data.series,
+      description: data.description || '',
+      thumbnail: options.thumbnails ? thumbnail : thumbnail,
+    }
+  })
 }
 
 export function slugify(string) {
@@ -34,54 +49,40 @@ export function slugify(string) {
 }
 
 export function capitalize(string) {
+  if (!string) return ''
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-export function appendComments() {
-  const commentDiv = document.getElementById('append-comments-here')
-  const commentScript = document.createElement('script')
-  const theme = window.localStorage.getItem('theme')
-
-  commentScript.async = true
-  commentScript.src = 'https://utteranc.es/client.js'
-  commentScript.setAttribute('repo', 'taniarascia/comments')
-  commentScript.setAttribute('issue-term', 'pathname')
-  commentScript.setAttribute('id', 'utterances')
-  commentScript.setAttribute(
-    'theme',
-    theme === 'light' ? 'github-light' : 'github-dark'
-  )
-  commentScript.setAttribute('crossorigin', 'anonymous')
-
-  if (!commentDiv.firstChild) {
-    commentDiv.appendChild(commentScript)
-  } else {
-    console.error('Error adding utterances comments')
-  }
+export function formatTopic(tag) {
+  return topicNames[tag] ?? tag
 }
 
-export function getFormattedDate(date, option = 2) {
-  const dateArr = date.split(' ')
-  if (dateArr[1].startsWith('0')) {
-    dateArr[1] = dateArr[1].slice(1, 2)
-  } else {
-    dateArr[1] = dateArr[1].slice(0, 2)
-  }
+export function getFormattedDate(dateStr, option = 2) {
+  if (!dateStr) return ''
+  const dateObj = new Date(dateStr)
+  if (isNaN(dateObj.getTime())) return dateStr
+
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ]
+  const month = months[dateObj.getUTCMonth()]
+  const day = dateObj.getUTCDate()
+  const year = dateObj.getUTCFullYear()
 
   if (option === 1) {
-    return dateArr[0] + ' ' + dateArr[option]
+    return `${month} ${day}`
   }
 
-  dateArr[1] += ','
-
-  return dateArr[0] + ' ' + dateArr[option]
+  return `${month} ${day}, ${year}`
 }
 
-export function isNewPost(date) {
-  const postDate = new Date(date)
+export function isNewPost(dateStr) {
+  if (!dateStr) return false
+  const postDate = new Date(dateStr)
   const today = new Date()
   const diffTime = Math.abs(today - postDate)
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
 
-  if (diffDays < 50) return true
+  return diffDays < 90
 }

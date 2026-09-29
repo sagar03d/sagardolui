@@ -1,13 +1,8 @@
-import floppy from '../assets/floppylogo.png'
-import blog from '../assets/nav-blog.png'
-import projects from '../assets/nav-projects.png'
-import search from '../assets/nav-search.png'
-
 export const mainNavLinks = [
-  { url: '/blog', label: 'Blog', image: blog },
-  { url: '/shelves', label: 'Shelves', image: search },
-  { url: '/projects', label: 'Projects', image: projects },
-  { url: '/me', label: 'About me', image: floppy },
+  { url: '/blog', label: 'Blog', image: '/images/nav-blog.png' },
+  { url: '/shelves', label: 'Shelves', image: '/images/nav-search.png' },
+  { url: '/projects', label: 'Projects', image: '/images/nav-projects.png' },
+  { url: '/me', label: 'About me', image: '/images/floppylogo.png' },
 ]
 
 export const subNavLinks = [

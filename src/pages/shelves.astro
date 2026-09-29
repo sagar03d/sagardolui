@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Hero from '../components/Hero.astro'
+import Shelves from '../components/Shelves.astro'
+
+const title = 'Shelves'
+const description = 'A curated list of tutorials, references, and deep dives.'
+---
+
+<Layout title={title} description={description}>
+  <Hero title={title} description={description} icon="/images/nav-search.png" />
+  <Shelves />
+</Layout>

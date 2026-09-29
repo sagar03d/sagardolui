@@ -1,0 +1,17 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Hero from '../components/Hero.astro'
+
+const title = '404 - Not Found'
+const description = 'The page you are looking for does not exist or has moved.'
+---
+
+<Layout title={title} description={description}>
+  <Hero title="404" description={description}>
+    <div style="margin-top: 2rem;">
+      <p>Sorry! The page you were looking for could not be found.</p>
+      <a href="/" class="button">Back to Home</a>
+      <a href="/blog" class="button secondary" style="margin-left: 1rem;">Browse Articles</a>
+    </div>
+  </Hero>
+</Layout>

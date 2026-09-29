@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content'
+import Layout from '../../layouts/Layout.astro'
+import Hero from '../../components/Hero.astro'
+import Posts from '../../components/Posts.astro'
+import { seriesList } from '../../data/seriesList'
+import { slugify, getSimplifiedPosts } from '../../utils/helpers'
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('posts')
+  const seriesMap = new Map<string, typeof allPosts>()
+
+  allPosts.forEach((post) => {
+    if (post.data.series) {
+      const slug = slugify(post.data.series.toLowerCase())
+      if (!seriesMap.has(slug)) {
+        seriesMap.set(slug, [])
+      }
+      seriesMap.get(slug)!.push(post)
+    }
+  })
+
+  // Also include series from seriesList even if no posts currently
+  seriesList.forEach((s) => {
+    const slug = s.slug.replace('/series/', '')
+    if (!seriesMap.has(slug)) {
+      seriesMap.set(slug, [])
+    }
+  })
+
+  return Array.from(seriesMap.entries()).map(([slug, posts]) => {
+    const seriesInfo = seriesList.find((s) => s.slug.replace('/series/', '') === slug || slugify(s.title.toLowerCase()) === slug)
+    const seriesTitle = seriesInfo?.title || posts[0]?.data.series || slug
+    return {
+      params: { series: slug },
+      props: { seriesTitle, seriesInfo, posts },
+    }
+  })
+}
+
+const { seriesTitle, seriesInfo, posts } = Astro.props
+const sortedPosts = posts.sort((a, b) => {
+  const dateA = new Date(a.data.date || 0).getTime()
+  const dateB = new Date(b.data.date || 0).getTime()
+  return dateA - dateB
+})
+
+const simplifiedPosts = getSimplifiedPosts(sortedPosts, { thumbnails: true })
+const count = simplifiedPosts.length
+const message = ' part series'
+const description = seriesInfo?.description ?? `All ${count} parts of the ${seriesTitle} series.`
+---
+
+<Layout title={seriesTitle} description={description}>
+  <Hero
+    highlight={count}
+    subTitle={message}
+    title={seriesTitle}
+    type="taxonomy"
+    description={description}
+    icon={seriesInfo?.icon}
+  />
+  <Posts data={simplifiedPosts} includeYear numbered />
+</Layout>

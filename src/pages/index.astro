@@ -1,0 +1,186 @@
+---
+import { getCollection } from 'astro:content'
+import Layout from '../layouts/Layout.astro'
+import Hero from '../components/Hero.astro'
+import Heading from '../components/Heading.astro'
+import Posts from '../components/Posts.astro'
+import Post from '../components/Post.astro'
+import { shelvesList } from '../data/shelvesList'
+import { seriesList } from '../data/seriesList'
+import { projectsList } from '../data/projectsList'
+import { getSimplifiedPosts, slugify } from '../utils/helpers'
+import config from '../utils/config'
+
+const allPosts = await getCollection('posts')
+const sortedPosts = allPosts.sort((a, b) => {
+  const dateA = new Date(a.data.date || 0).getTime()
+  const dateB = new Date(b.data.date || 0).getTime()
+  return dateB - dateA
+})
+
+const latestPosts = getSimplifiedPosts(sortedPosts.slice(0, 4), { thumbnails: true })
+---
+
+<Layout title={config.siteTitle} description={config.description}>
+  <Hero type="index">
+    <div class="hero-wrapper">
+      <div>
+        <h1 class="flex-align-center gap">Hey, I'm Sagar!</h1>
+        <p class="hero-description hero-tagline">
+          Senior Full-Stack Engineer, System Architect, GenAI Builder.
+        </p>
+        <Heading title="Career timeline" small />
+        <ul class="hero-eras">
+          <li>
+            <span class="era-dates">2021&ndash;now</span>
+            <span>
+              <a href="/resume">Senior Software Engineer</a> at{' '}
+              <b>Bambinos Learning Solutions</b> (<i>Employee of the Year 2022</i>):
+              Scaled backend infrastructure for 60K+ monthly active users with
+              99.99% uptime. Optimized PostgreSQL indexing and query logic, cutting
+              API latency from 800ms to 320ms (60% improvement). Led migration to
+              high-availability GCP (Compute Engine & Cloud SQL), maintained &gt;90%
+              test coverage, and built real-time WebSocket analytics dashboards in React.
+            </span>
+          </li>
+          <li>
+            <span class="era-dates">2019&ndash;2021</span>
+            <span>
+              <b>Web Developer</b> at <b>Arobit Business Solutions</b>:
+              Engineered a multi-tenant SaaS backend supporting 300K+ users with
+              multi-domain RESTful APIs. Scaled financial operations by integrating
+              Stripe and Razorpay, processing 50L+ INR monthly with Dockerized
+              environments and NGINX load balancing.
+            </span>
+          </li>
+          <li>
+            <span class="era-dates">2018</span>
+            <span>
+              <b>Web Developer</b> at <b>Wishnet Pvt Ltd</b>:
+              Developed the Wishtrip hospitality booking platform for 5+ nationwide
+              properties. Reduced SLA breaches by 25% by building automated internal
+              PHP/MySQL monitoring tools.
+            </span>
+          </li>
+          <li>
+            <span class="era-dates">2018</span>
+            <span>
+              <b>B.C.A. in Artificial Intelligence</b>, Sainath University:
+              Graduated as <i>Best Performing Student (2018 Batch)</i>.
+            </span>
+          </li>
+        </ul>
+        <p class="hero-description">
+          <a href="/me">Projects & Research</a>: Creator of{' '}
+          <a href="/sessionorbit-ai-virtual-classroom">SessionOrbit</a>{' '}
+          (AI Virtual Classroom) and{' '}
+          <a href="/building-rag-pipelines-with-langchain">Blogineers</a>{' '}
+          (AI Autoblogging SaaS with LangChain RAG & Supabase).
+        </p>
+      </div>
+      <div class="hero-image-container">
+        <img src="/ram.png" class="hero-image" alt="Sagar Dolui" />
+        <aside class="hero-bubble">
+          📍 Bengaluru, India &bull;{' '}
+          <a href="mailto:sagar03d@gmail.com">sagar03d@gmail.com</a> &bull;{' '}
+          <a href="tel:+919088847921">+91-9088847921</a>
+        </aside>
+      </div>
+    </div>
+  </Hero>
+
+  <section class="section-index">
+    <Heading title="Latest" slug="/blog" buttonText="All Posts" />
+    <Posts data={latestPosts} detailed />
+  </section>
+
+  <section class="section-index">
+    <Heading
+      title="Shelves"
+      slug="/shelves"
+      buttonText="All Shelves"
+      description="Hand-picked paths through systems architecture, databases, AI, and cloud."
+    />
+    <div class="cards cards-half">
+      {shelvesList.map((shelf) => (
+        <a
+          class="card card-highlight card-shelf"
+          href={`/shelves#${slugify(shelf.title)}`}
+        >
+          <div class="flex-space-between">
+            <div class="card-title">{shelf.title}</div>
+            <div class="chip">
+              <span class="chip-highlight">{shelf.links.length}</span>
+            </div>
+          </div>
+          <p>{shelf.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section-index">
+    <Heading
+      title="Series"
+      description="In-depth engineering series and architectural case studies."
+    />
+    <div class="posts">
+      {seriesList.map((series) => (
+        <Post
+          detailed
+          node={{
+            slug: series.slug,
+            title: series.title,
+            thumbnail: series.icon,
+            description: series.description,
+          }}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <Heading
+      title="Projects"
+      slug="/projects"
+      buttonText="All Projects"
+      description="Platforms and systems architected and built over 8+ years."
+      icon="/images/nav-github.png"
+    />
+
+    <div class="cards">
+      {projectsList
+        .filter((project) => project.highlight)
+        .map((project) => (
+          <div class="card">
+            <time>{project.date}</time>
+            <a
+              href={project.url || `https://github.com/sagar03d/${project.slug}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {project.name}
+            </a>
+            <p>{project.tagline}</p>
+            <div class="card-links">
+              {project.writeup && (
+                <a href={project.writeup}>Article</a>
+              )}
+              {project.url && (
+                <a href={project.url} target="_blank" rel="noreferrer">
+                  Link
+                </a>
+              )}
+              <a
+                href={project.url || `https://github.com/sagar03d/${project.slug}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Source
+              </a>
+            </div>
+          </div>
+        ))}
+    </div>
+  </section>
+</Layout>

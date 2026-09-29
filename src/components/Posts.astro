@@ -1,0 +1,81 @@
+---
+import Post from './Post.astro'
+
+interface Props {
+  data: Array<{
+    id?: string
+    slug: string
+    title: string
+    date?: string
+    description?: string
+    thumbnail?: string
+    tags?: string[]
+  }>
+  showYears?: boolean
+  detailed?: boolean
+  prefix?: string
+  includeYear?: boolean
+  numbered?: boolean
+}
+
+const { data = [], showYears = false, detailed = false, prefix, includeYear = false, numbered = false } = Astro.props
+
+// Group posts by year if showYears is true
+const postsByYear: Record<string, typeof data> = {}
+if (showYears) {
+  data.forEach((post) => {
+    let year = 'Recent'
+    if (post.date) {
+      const parts = post.date.split(', ')
+      if (parts.length > 1) {
+        year = parts[1]
+      } else {
+        const d = new Date(post.date)
+        if (!isNaN(d.getTime())) {
+          year = String(d.getUTCFullYear())
+        }
+      }
+    }
+    if (!postsByYear[year]) {
+      postsByYear[year] = []
+    }
+    postsByYear[year].push(post)
+  })
+}
+
+const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a))
+---
+
+{showYears ? (
+  years.map((year) => {
+    const count = postsByYear[year].length
+    return (
+      <section class="year">
+        <h2 class="flex-align-center gap">
+          <div>{year}</div>
+          <div class="chip">
+            <span class="chip-highlight">{count}</span>
+            {count === 1 ? 'post' : 'posts'}
+          </div>
+        </h2>
+        <div class="posts">
+          {postsByYear[year].map((node) => (
+            <Post node={node} prefix={prefix} detailed={detailed} />
+          ))}
+        </div>
+      </section>
+    )
+  })
+) : (
+  <div class="posts">
+    {data.map((node, index) => (
+      <Post
+        node={node}
+        prefix={prefix}
+        detailed={detailed}
+        includeYear={includeYear}
+        number={numbered ? index + 1 : undefined}
+      />
+    ))}
+  </div>
+)}

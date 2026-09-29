@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Hero from '../components/Hero.astro'
+
+const images = [
+  { url: '/illustrations/Ram.png', title: 'RAM Ram' },
+  { url: '/illustrations/Kohaku.png', title: 'Kohaku River' },
+  { url: '/illustrations/Slurms.png', title: 'Slurms MacKenzie' },
+  { url: '/illustrations/Charizard.png', title: 'Charizard' },
+  { url: '/illustrations/MechaRam.png', title: 'Mecha Ram' },
+  { url: '/illustrations/Squirtle.png', title: 'Squirtle' },
+  { url: '/illustrations/Wartortle.png', title: 'Wartortle' },
+  { url: '/illustrations/Blastoise.png', title: 'Blastoise' },
+]
+
+const title = 'Art'
+const description = "I don't draw much, but here's a few illustrations."
+---
+
+<Layout title={title} description={description}>
+  <Hero title={title} description={description} />
+
+  <div class="cards">
+    {images.map((image) => (
+      <div class="card">
+        <a href={image.url} target="_blank" rel="noreferrer">
+          <div>{image.title}</div>
+          <div
+            class="image-thumbnail"
+            style={`background-image: url('${image.url}')`}
+            aria-label={image.title}
+          />
+        </a>
+      </div>
+    ))}
+  </div>
+</Layout>

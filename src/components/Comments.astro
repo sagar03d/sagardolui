@@ -1,0 +1,41 @@
+---
+---
+
+<div id="append-comments-here"></div>
+
+<script>
+  function setupUtterances() {
+    const commentDiv = document.getElementById('append-comments-here')
+    if (!commentDiv) return
+
+    // Clear previous if any
+    commentDiv.innerHTML = ''
+
+    const isLight = document.documentElement.classList.contains('is-light')
+    const theme = isLight ? 'github-light' : 'github-dark'
+
+    const script = document.createElement('script')
+    script.src = 'https://utteranc.es/client.js'
+    script.async = true
+    script.setAttribute('repo', 'sagar03d/sagardolui')
+    script.setAttribute('issue-term', 'pathname')
+    script.setAttribute('theme', theme)
+    script.setAttribute('crossorigin', 'anonymous')
+
+    commentDiv.appendChild(script)
+
+    const handleThemeChange = (e: any) => {
+      const newTheme = e.detail?.theme === 'light' ? 'github-light' : 'github-dark'
+      const iframe = document.querySelector<HTMLIFrameElement>('iframe.utterances-frame')
+      if (iframe && iframe.contentWindow) {
+        iframe.contentWindow.postMessage({ type: 'set-theme', theme: newTheme }, 'https://utteranc.es')
+      }
+    }
+
+    window.removeEventListener('themechange', handleThemeChange)
+    window.addEventListener('themechange', handleThemeChange)
+  }
+
+  setupUtterances()
+  document.addEventListener('astro:page-load', setupUtterances)
+</script>

@@ -1,0 +1,77 @@
+---
+interface Props {
+  highlight?: string | number
+  subTitle?: string
+  title?: string
+  date?: string
+  dateISO?: string
+  description?: string
+  type?: string
+  breadcrumb?: { value: string; label: string }
+  hasSearch?: boolean
+  icon?: string
+  thumbnail?: string
+}
+
+const {
+  highlight,
+  subTitle,
+  title,
+  date,
+  dateISO,
+  description,
+  type = 'page',
+  breadcrumb,
+  hasSearch,
+  icon,
+  thumbnail,
+} = Astro.props
+---
+
+<header
+  class={`hero hero-${type}`}
+  style={hasSearch ? 'margin-bottom: 1.5rem;' : ''}
+>
+  {subTitle && (
+    <div class="sub-title">
+      {breadcrumb && (
+        <>
+          <a href={breadcrumb.value}>{breadcrumb.label}</a> <span>/</span>
+        </>
+      )}
+      <div>
+        {highlight && <span class="highlight">{highlight}</span>}
+        <span>{subTitle}</span>
+      </div>
+    </div>
+  )}
+
+  {date && (
+    <div class="post-date">
+      <div class="small flex-align-center gap">
+        <time datetime={dateISO}>{date}</time>
+        <div class="divider"></div>
+        <a href="#comments">Comments</a>
+      </div>
+    </div>
+  )}
+
+  {title && (
+    <h1 class={date ? 'has-date' : 'flex-align-center large-gap'}>
+      {icon && <img src={icon} alt="" width="32" height="32" />}
+      {thumbnail && <img src={thumbnail} alt="" class="hero-thumbnail" width="40" height="40" />}
+      <span>{title}</span>
+    </h1>
+  )}
+
+  {description && (
+    <div
+      class="hero-description"
+      style={hasSearch ? 'margin-bottom: 0;' : ''}
+    >
+      {description}
+    </div>
+  )}
+
+  <slot />
+</header>

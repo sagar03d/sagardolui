@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content'
+import Layout from '../../layouts/Layout.astro'
+import Hero from '../../components/Hero.astro'
+import { slugify, formatTopic } from '../../utils/helpers'
+
+const allPosts = await getCollection('posts')
+
+const tagCounts: Record<string, number> = {}
+allPosts.forEach((post) => {
+  const tags = post.data.tags || []
+  tags.forEach((tag) => {
+    tagCounts[tag] = (tagCounts[tag] || 0) + 1
+  })
+})
+
+const sortedTags = Object.entries(tagCounts).sort(([a], [b]) => a.localeCompare(b))
+
+const groupTags: Record<string, Array<{ name: string; count: number }>> = {}
+sortedTags.forEach(([tag, count]) => {
+  const letter = tag.charAt(0).toUpperCase()
+  if (!groupTags[letter]) {
+    groupTags[letter] = []
+  }
+  groupTags[letter].push({ name: tag, count })
+})
+
+const title = 'Topics'
+const description =
+  "All the topics I've covered across front and backend engineering, systems architecture, GenAI, databases, and cloud infrastructure."
+---
+
+<Layout title={title} description={description}>
+  <Hero title={title} description={description} />
+
+  {Object.entries(groupTags).map(([letter, tags]) => (
+    <div>
+      <h3>{letter}</h3>
+      <div class="cards with-tags">
+        {tags.map(({ name, count }) => (
+          <a
+            href={`/topics/${slugify(name)}`}
+            class="card card-highlight flex-space-between"
+          >
+            <span>{formatTopic(name)}</span>
+            <span class="chip">
+              <span class="chip-highlight">{count}</span>
+              {count === 1 ? ' post' : ' posts'}
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  ))}
+</Layout>

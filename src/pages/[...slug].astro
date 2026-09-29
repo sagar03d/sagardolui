@@ -1,0 +1,155 @@
+---
+import { getCollection } from 'astro:content'
+import Layout from '../layouts/Layout.astro'
+import Hero from '../components/Hero.astro'
+import AuthorCard from '../components/AuthorCard.astro'
+import Comments from '../components/Comments.astro'
+import { getFormattedDate, slugify, normalizeThumbnail, getPostSlug } from '../utils/helpers'
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts')
+  const pages = await getCollection('pages')
+
+  const sortedPosts = posts.sort((a, b) => {
+    const dateA = new Date(a.data.date || 0).getTime()
+    const dateB = new Date(b.data.date || 0).getTime()
+    return dateB - dateA
+  })
+
+  const postPaths = sortedPosts.map((entry, index) => {
+    const rawSlug = entry.data.slug || entry.slug || entry.id.replace(/\.(md|mdx)$/, '')
+    const cleanSlug = rawSlug.replace(/^\//, '').replace(/\/$/, '')
+    const previous = index === sortedPosts.length - 1 ? null : sortedPosts[index + 1]
+    const next = index === 0 ? null : sortedPosts[index - 1]
+
+    return {
+      params: { slug: cleanSlug },
+      props: {
+        entry,
+        type: 'post',
+        previous,
+        next,
+      },
+    }
+  })
+
+  const pagePaths = pages.map((entry) => {
+    const rawSlug = entry.data.slug || entry.slug || entry.id.replace(/\.(md|mdx)$/, '')
+    const cleanSlug = rawSlug.replace(/^\//, '').replace(/\/$/, '')
+
+    return {
+      params: { slug: cleanSlug },
+      props: {
+        entry,
+        type: 'page',
+        previous: null,
+        next: null,
+      },
+    }
+  })
+
+  return [...postPaths, ...pagePaths]
+}
+
+const { entry, type, previous, next } = Astro.props
+const { Content, headings } = await entry.render()
+
+const data = entry.data
+const title = data.title
+const description = data.description || ''
+const tags = data.tags || []
+const categories = data.categories || []
+const date = data.date ? getFormattedDate(data.date, 2) : ''
+const dateISO = data.date ? new Date(data.date).toISOString().slice(0, 10) : ''
+const isNote = categories.includes('Personal')
+const thumbnail = normalizeThumbnail(data.thumbnail)
+const dated = data.dated
+const commentsOff = data.comments_off
+
+const prevSlug = previous ? getPostSlug(previous) : null
+const nextSlug = next ? getPostSlug(next) : null
+---
+
+<Layout
+  title={title}
+  description={description}
+  image={thumbnail || '/logo.png'}
+  isNote={isNote}
+>
+  {type === 'post' ? (
+    <div class="post-layout">
+      {thumbnail && (
+        <img
+          src={thumbnail}
+          class="main-article-thumbnail"
+          alt=""
+        />
+      )}
+
+      <Hero
+        title={title}
+        type="post"
+        date={date}
+        dateISO={dateISO}
+      >
+        {tags.length > 0 && (
+          <div class="tags">
+            {tags.map((tag: string) => (
+              <a href={`/topics/${slugify(tag)}`} class="tag">
+                {tag}
+              </a>
+            ))}
+          </div>
+        )}
+      </Hero>
+
+      {dated && (
+        <blockquote class="dated-banner">
+          <b>This post has been archived</b>. It was written in {dateISO.slice(0, 4)}, and the tools and concepts it covers belong to an earlier era of the web.
+        </blockquote>
+      )}
+
+      <div class="main-article" id={entry.slug}>
+        <div class="introduction" id="introduction"></div>
+        <Content />
+      </div>
+
+      {(previous || next) && (
+        <nav class="post-navigation" aria-label="More posts">
+          {previous && (
+            <a href={prevSlug} rel="prev" class="post-navigation-link">
+              <span class="small">&larr; Older post</span>
+              {previous.data.title}
+            </a>
+          )}
+          {next && (
+            <a href={nextSlug} rel="next" class="post-navigation-link post-navigation-next">
+              <span class="small">Newer post &rarr;</span>
+              {next.data.title}
+            </a>
+          )}
+        </nav>
+      )}
+
+      <AuthorCard />
+
+      {!commentsOff && (
+        <section id="comments" class="comments">
+          <h3>Comments</h3>
+          <Comments />
+        </section>
+      )}
+    </div>
+  ) : (
+    <div class="page-layout">
+      <Hero
+        title={title}
+        description={description}
+        thumbnail={thumbnail || undefined}
+      />
+      <div id={`article-${entry.slug}`} class="page-article">
+        <Content />
+      </div>
+    </div>
+  )}
+</Layout>

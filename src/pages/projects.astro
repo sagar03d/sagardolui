@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Hero from '../components/Hero.astro'
+import { projectsList } from '../data/projectsList'
+
+const title = 'Projects'
+const description =
+  "Platforms, SaaS backends, and AI architectures I've designed and engineered over 8+ years of professional experience."
+---
+
+<Layout title={title} description={description}>
+  <Hero title={title} description={description} icon="/images/nav-projects.png" />
+
+  <div class="cards">
+    {projectsList.map((project) => (
+      <div class="card" data-slug={project.slug}>
+        <div class="stars">
+          <div class="star hidden" id={`star-${project.slug}`}>
+            <a
+              href={`https://github.com/sagar03d/${project.slug}/stargazers`}
+              target="_blank"
+              rel="noreferrer"
+              class="star-count"
+            >
+              0
+            </a>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          </div>
+        </div>
+        <time>{project.date}</time>
+        <a
+          class="card-header"
+          href={project.url || `https://github.com/sagar03d/${project.slug}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {project.name}
+        </a>
+        <p>{project.tagline}</p>
+        <div class="card-links">
+          {project.writeup && <a href={project.writeup}>Article</a>}
+          {project.url && (
+            <a href={project.url} target="_blank" rel="noreferrer">
+              Link
+            </a>
+          )}
+          <a
+            href={project.url || `https://github.com/sagar03d/${project.slug}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Source
+          </a>
+        </div>
+      </div>
+    ))}
+  </div>
+</Layout>
+
+<script>
+  async function fetchGitHubStars() {
+    try {
+      const res = await fetch('https://api.github.com/users/sagar03d/repos?per_page=100')
+      if (res.ok) {
+        const repos = await res.json()
+        if (Array.isArray(repos)) {
+          repos.forEach((repo) => {
+            const el = document.getElementById(`star-${repo.name}`)
+            if (el && repo.stargazers_count > 0) {
+              const countEl = el.querySelector('.star-count')
+              if (countEl) {
+                countEl.textContent = Number(repo.stargazers_count).toLocaleString()
+              }
+              el.classList.remove('hidden')
+            }
+          })
+        }
+      }
+    } catch (e) {
+      console.warn('Could not fetch GitHub stars', e)
+    }
+  }
+
+  fetchGitHubStars()
+  document.addEventListener('astro:page-load', fetchGitHubStars)
+</script>

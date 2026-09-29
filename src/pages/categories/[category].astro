@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content'
+import Layout from '../../layouts/Layout.astro'
+import Hero from '../../components/Hero.astro'
+import Posts from '../../components/Posts.astro'
+import { slugify, getSimplifiedPosts } from '../../utils/helpers'
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('posts')
+  const categoryMap = new Map<string, typeof allPosts>()
+
+  allPosts.forEach((post) => {
+    const categories = post.data.categories || []
+    categories.forEach((cat) => {
+      const slug = slugify(cat)
+      if (!categoryMap.has(slug)) {
+        categoryMap.set(slug, [])
+      }
+      categoryMap.get(slug)!.push(post)
+    })
+  })
+
+  return Array.from(categoryMap.entries()).map(([slug, posts]) => {
+    const originalCategory = posts[0].data.categories?.find((c) => slugify(c) === slug) || slug
+    return {
+      params: { category: slug },
+      props: { originalCategory, posts },
+    }
+  })
+}
+
+const { originalCategory, posts } = Astro.props
+const sortedPosts = posts.sort((a, b) => {
+  const dateA = new Date(a.data.date || 0).getTime()
+  const dateB = new Date(b.data.date || 0).getTime()
+  return dateB - dateA
+})
+
+const simplifiedPosts = getSimplifiedPosts(sortedPosts, { thumbnails: true })
+const count = simplifiedPosts.length
+const message = count === 1 ? ' post categorized as:' : ' posts categorized as:'
+const description = `All posts in the ${originalCategory} category written by Sagar Dolui.`
+---
+
+<Layout title={originalCategory} description={description}>
+  <Hero
+    highlight={count}
+    subTitle={message}
+    title={originalCategory}
+    type="taxonomy"
+  />
+  <Posts data={simplifiedPosts} showYears={true} />
+</Layout>
