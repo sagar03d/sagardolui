@@ -181,13 +181,18 @@ const createNode = ({ node, actions, getNode }) => {
   }
 }
 
-// Declare optional frontmatter fields so queries stay valid even when no
-// content file currently sets them
+// Declare explicit schema customization so queries stay valid even when
+// content files are being reloaded, empty, or missing optional fields
 exports.createSchemaCustomization = ({ actions }) => {
   actions.createTypes(`
+    type MarkdownRemark implements Node {
+      frontmatter: MarkdownRemarkFrontmatter
+    }
+
     type MarkdownRemarkFrontmatter {
       title: String
       slug: String
+      template: String
       htmlTitle: String
       format: String
       dated: Boolean
@@ -198,6 +203,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       categories: [String]
       updated: Date @dateformat
       date: Date @dateformat
+      thumbnail: File @fileByRelativePath
     }
   `)
 }
