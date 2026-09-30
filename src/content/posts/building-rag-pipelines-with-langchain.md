@@ -7,7 +7,7 @@ series: 'Production GenAI & RAG Pipelines'
 tags: ['genai', 'rag', 'openai', 'node', 'langchain']
 categories: ['Engineering', 'GenAI']
 description: 'Step-by-step architecture for building an automated AI content pipeline using retrieval-augmented generation (RAG) in TypeScript.'
-thumbnail: '../thumbnails/ai.png'
+thumbnail: '../thumbnails/ai.svg'
 ---
 
 Retrieval-Augmented Generation (RAG) allows Large Language Models (LLMs) to answer queries using dynamic, domain-specific private data without costly fine-tuning.

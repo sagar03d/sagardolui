@@ -7,7 +7,7 @@ series: 'PostgreSQL Performance & Indexing'
 tags: ['postgresql', 'database', 'sql', 'performance']
 categories: ['Engineering', 'Databases']
 description: 'A deep dive into query execution plans, B-Tree and partial indexing, and reducing average API response times by 60%.'
-thumbnail: '../thumbnails/postgres.png'
+thumbnail: '../thumbnails/postgres.svg'
 ---
 
 When API latency is dominated by database execution time, optimizing database queries yields the highest return on investment. In this post, I detail how we investigated slow endpoints and reduced average API latency from **800ms down to 320ms**—a **60% performance improvement**.

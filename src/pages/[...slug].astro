@@ -110,7 +110,7 @@ const nextSlug = next ? getPostSlug(next) : null
         </blockquote>
       )}
 
-      <div class="main-article" id={entry.slug}>
+      <div class="main-article" id={entry.data.slug || entry.id}>
         <div class="introduction" id="introduction"></div>
         <Content />
       </div>
@@ -148,7 +148,7 @@ const nextSlug = next ? getPostSlug(next) : null
         description={description}
         thumbnail={thumbnail || undefined}
       />
-      <div id={`article-${entry.slug}`} class="page-article">
+      <div id={`article-${entry.data.slug || entry.id}`} class="page-article">
         <Content />
       </div>
     </>

@@ -6,7 +6,7 @@ slug: 'dockerizing-microservices-nginx-load-balancing'
 tags: ['docker', 'devops', 'nginx', 'architecture', 'linux']
 categories: ['Engineering', 'DevOps']
 description: 'Step-by-step setup for multi-stage Docker builds, health checks, and NGINX upstream balancing for zero downtime.'
-thumbnail: '../thumbnails/gcp.png'
+thumbnail: '../thumbnails/docker.svg'
 ---
 
 Zero-downtime rolling updates ensure that user sessions are never severed during active code pushes or configuration changes.

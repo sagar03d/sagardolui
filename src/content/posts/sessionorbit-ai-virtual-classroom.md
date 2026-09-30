@@ -6,7 +6,7 @@ slug: 'sessionorbit-ai-virtual-classroom'
 tags: ['genai', 'react', 'node', 'postgresql', 'projects', 'websockets']
 categories: ['Projects', 'Engineering']
 description: 'How SessionOrbit centralized tutor-student operations and cut administrative overhead by 40% with real-time data sync.'
-thumbnail: '../thumbnails/node.png'
+thumbnail: '../thumbnails/edtech.svg'
 ---
 
 Managing high-frequency online tutoring sessions requires coordinate-heavy synchronization between students, educators, parents, and administrative staff.

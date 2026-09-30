@@ -30,8 +30,7 @@ Senior Full-Stack Engineer with **8+ years of experience** architecting scalable
 ## Professional Experience
 
 ### **Senior Software Engineer** | [Bambinos Learning Solutions Pvt Ltd](https://bambinos.live)
-*Bengaluru, India* &bull; *Apr 2021 – Present*  
-🏆 **Employee of the Year (2022)**
+*Bengaluru, India* &bull; *Apr 2021 – Present*
 
 * Architected and scaled backend infrastructure for **60K+ monthly active users**, maintaining a consistent **99.99% uptime**.
 * Optimized PostgreSQL indexing and query logic, reducing average API response times from **800ms to 320ms** (60% improvement).
@@ -74,5 +73,5 @@ Senior Full-Stack Engineer with **8+ years of experience** architecting scalable
 ## Education
 
 ### **Bachelor of Computer Applications (B.C.A.) in AI**
-*Sainath University* &bull; *2018*  
+*[Sainath University](https://www.sainathuniversity.com/)* &bull; *2018*  
 🏆 **Best Performing Student (2018 Batch)**

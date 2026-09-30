@@ -7,7 +7,7 @@ series: 'Architecting Scalable EdTech Systems'
 tags: ['edtech', 'architecture', 'node', 'gcp', 'websockets']
 categories: ['Engineering', 'Architecture']
 description: 'How we designed, migrated, and scaled an EdTech backend to achieve 99.99% uptime for over 60,000 active students and faculty.'
-thumbnail: '../thumbnails/node.png'
+thumbnail: '../thumbnails/node.svg'
 ---
 
 Scaling an educational technology platform presents unique architectural challenges. Unlike typical e-commerce traffic where requests are distributed throughout the day, EdTech traffic features massive peak concurrency spikes during live classroom schedules and exam periods.

@@ -7,7 +7,7 @@ series: 'Cloud Infrastructure & High Availability'
 tags: ['gcp', 'cloud', 'devops', 'kubernetes', 'docker']
 categories: ['Engineering', 'DevOps']
 description: 'How we migrated mission-critical services to Google Cloud Platform with zero user downtime and automated failover.'
-thumbnail: '../thumbnails/gcp.png'
+thumbnail: '../thumbnails/gcp.svg'
 ---
 
 Migrating live production databases and microservices without downtime requires rigorous planning, shadow traffic testing, and multi-stage cutover procedures.

@@ -6,7 +6,7 @@ slug: 'real-time-dashboards-with-websockets-react'
 tags: ['react', 'websockets', 'javascript', 'frontend']
 categories: ['Engineering', 'Frontend']
 description: 'Architecting low-latency, event-driven web dashboards for live classroom monitoring and instant student analytics.'
-thumbnail: '../thumbnails/websockets.png'
+thumbnail: '../thumbnails/websockets.svg'
 ---
 
 Real-time visibility into student engagement, attendance, and session progression is vital for instructors and operations teams in EdTech.

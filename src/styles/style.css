@@ -783,9 +783,10 @@ a.navbar-icon {
   display: none;
   position: sticky;
   top: 0;
+  align-self: start;
   height: 100vh;
-  overflow-y: auto;
-  scrollbar-width: thin;
+  height: 100dvh;
+  overflow: hidden;
   background: var(--color-background-sidebar);
   border-right: 1px solid var(--color-border);
   min-width: var(--sidebar-width);
@@ -1416,8 +1417,21 @@ ul.hero-eras {
   li {
     margin-bottom: 1rem;
 
-    > span:last-child {
+    > span:last-child,
+    > .era-body {
       color: var(--color-text-emphasized);
+    }
+  }
+
+  ul.era-points {
+    list-style: disc;
+    margin: 0.35rem 0 0 0;
+    padding-left: 1.25rem;
+    font-size: 0.95em;
+
+    li {
+      display: list-item;
+      margin-bottom: 0.2rem;
     }
   }
 
@@ -2492,6 +2506,31 @@ a.footer-link {
       border-bottom-left-radius: 0;
       border-left: 0;
     }
+  }
+}
+
+.blog-search {
+  display: block;
+  width: 100%;
+}
+
+.blog-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  .searchbar {
+    flex: 1;
+    min-width: 0;
+    max-width: 480px;
+  }
+
+  .search-count {
+    font-family: var(--font-family-monospace2);
+    font-size: 0.85rem;
+    white-space: nowrap;
+    color: var(--color-text-muted);
   }
 }
 

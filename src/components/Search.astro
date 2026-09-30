@@ -17,17 +17,17 @@ interface Props {
 const { data = [], detailed = true } = Astro.props
 
 const quickFilters = [
-  { tag: 'edtech', label: 'EdTech', image: '/thumbnails/node.png' },
-  { tag: 'architecture', label: 'Architecture', image: '/thumbnails/gcp.png' },
-  { tag: 'node', label: 'Node', image: '/thumbnails/node.png' },
-  { tag: 'postgresql', label: 'Postgres', image: '/thumbnails/postgres.png' },
-  { tag: 'genai', label: 'GenAI', image: '/thumbnails/ai.png' },
-  { tag: 'gcp', label: 'GCP', image: '/thumbnails/gcp.png' },
-  { tag: 'websockets', label: 'WebSockets', image: '/thumbnails/websockets.png' },
+  { tag: 'edtech', label: 'EdTech', image: '/thumbnails/edtech.svg' },
+  { tag: 'architecture', label: 'Architecture', image: '/thumbnails/architecture.svg' },
+  { tag: 'node', label: 'Node', image: '/thumbnails/node.svg' },
+  { tag: 'postgresql', label: 'Postgres', image: '/thumbnails/postgres.svg' },
+  { tag: 'genai', label: 'GenAI', image: '/thumbnails/ai.svg' },
+  { tag: 'gcp', label: 'GCP', image: '/thumbnails/gcp.svg' },
+  { tag: 'websockets', label: 'WebSockets', image: '/thumbnails/websockets.svg' },
 ]
 ---
 
-<div class="search-container" id="blog-search-container" data-posts={JSON.stringify(data)}>
+<div class="blog-search" id="blog-search-container" data-posts={JSON.stringify(data)}>
   <div class="quick-filters">
     {quickFilters.map(({ tag, label, image }) => (
       <div class="tooltip-container tooltip-above">
@@ -44,12 +44,12 @@ const quickFilters = [
     ))}
   </div>
 
-  <div class="search-bar" style="margin-bottom: 2.5rem;">
+  <div class="blog-search-bar">
     <input
       type="text"
       id="search-input"
       placeholder={`Search ${data.length} posts...`}
-      class="input"
+      class="searchbar"
       aria-label="Search posts"
     />
     <span class="search-count" id="search-count">{data.length} posts</span>
@@ -68,6 +68,8 @@ const quickFilters = [
 </div>
 
 <script>
+  import { getFormattedDate } from '../utils/helpers'
+
   function setupSearch() {
     const container = document.getElementById('blog-search-container')
     if (!container) return
@@ -135,7 +137,7 @@ const quickFilters = [
                 <div class="post-title">
                   <div>${post.title}</div>
                 </div>
-                ${post.date ? `<time>${post.date}</time>` : ''}
+                ${post.date ? `<time>${getFormattedDate(post.date, 1)}</time>` : ''}
                 ${post.description ? `<p class="post-description">${post.description}</p>` : ''}
               </div>
               ${post.tags && post.tags.length > 0 ? `

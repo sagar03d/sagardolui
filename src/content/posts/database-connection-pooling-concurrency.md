@@ -7,7 +7,7 @@ series: 'PostgreSQL Performance & Indexing'
 tags: ['postgresql', 'node', 'database', 'performance', 'backend']
 categories: ['Engineering', 'Databases']
 description: 'Configuring PgBouncer and node-postgres connection pools to prevent connection starvation under massive traffic spikes.'
-thumbnail: '../thumbnails/postgres.png'
+thumbnail: '../thumbnails/postgres.svg'
 ---
 
 Under sudden traffic bursts, Node.js applications that create database connections on the fly can quickly exhaust PostgreSQL `max_connections`, leading to cascading gateway timeouts.

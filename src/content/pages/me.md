@@ -7,6 +7,8 @@ description: 'Senior Full-Stack Engineer with 8+ years of experience architectin
 
 # Hey, I'm Sagar Dolui 👋
 
+<img src="/images/sagar-dolui-main.jpeg" alt="Sagar Dolui" class="image-float" />
+
 I am a **Senior Full-Stack Engineer** with over **8+ years of experience** architecting high-performance web platforms, SaaS ecosystems, and scalable cloud backends. My career has focused on creating reliable, high-uptime systems in EdTech and SaaS domains, handling workloads for hundreds of thousands of users.
 
 ---
@@ -24,7 +26,6 @@ I am a **Senior Full-Stack Engineer** with over **8+ years of experience** archi
 ## 💼 Career Highlights
 
 * **[Bambinos Learning Solutions Pvt Ltd](https://bambinos.live)** (2021 – Present):
-  * **Employee of the Year (2022)**.
   * Scaled backend infrastructure to serve **60K+ monthly active users** with **99.99% uptime**.
   * Optimized database query patterns and indexes, slashing API latency from **800ms to 320ms** (60% boost).
   * Led migration to a high-availability Google Cloud Platform environment.
@@ -51,8 +52,7 @@ I am a **Senior Full-Stack Engineer** with over **8+ years of experience** archi
 ## 🎓 Education & Honors
 
 * **Bachelor of Computer Applications (B.C.A.) in Artificial Intelligence**  
-  *Sainath University (2018)* — **Best Performing Student (2018 Batch)**
-* **Employee of the Year (2022)** — *[Bambinos Learning Solutions Pvt Ltd](https://bambinos.live)*
+  *[Sainath University](https://www.sainathuniversity.com/) (2018)* — **Best Performing Student (2018 Batch)**
 
 ---
 

@@ -6,7 +6,7 @@ slug: 'multi-tenant-saas-architecture'
 tags: ['saas', 'architecture', 'rest', 'docker', 'nginx']
 categories: ['Engineering', 'Architecture']
 description: 'Multi-domain tenant isolation, payment gateways (Stripe & Razorpay), and containerized deployments for 300K+ users.'
-thumbnail: '../thumbnails/saas.png'
+thumbnail: '../thumbnails/saas.svg'
 ---
 
 When scaling a B2B SaaS platform, multi-tenancy enables a single application instance to serve multiple corporate customers while ensuring strict data separation and custom domain routing.

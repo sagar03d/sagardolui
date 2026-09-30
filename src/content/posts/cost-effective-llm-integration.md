@@ -6,7 +6,7 @@ slug: 'cost-effective-llm-integration'
 tags: ['genai', 'openai', 'api', 'saas', 'python']
 categories: ['Engineering', 'GenAI']
 description: 'Techniques for prompt caching, token optimization, semantic routing, and streaming responses in production applications.'
-thumbnail: '../thumbnails/ai.png'
+thumbnail: '../thumbnails/ai.svg'
 ---
 
 Integrating LLM APIs like OpenAI GPT-4o and Anthropic Claude into high-volume SaaS applications can quickly escalate operational costs if not engineered with token efficiency in mind.
