@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { defineConfig } from 'astro/config'
 import sitemap from '@astrojs/sitemap'
 
@@ -6,9 +6,10 @@ const site = 'https://sagardolui.com'
 
 // Map each blog post URL to its frontmatter date so the sitemap can report lastmod
 const postDates = new Map()
-for (const file of readdirSync('./content/posts')) {
+const postsDir = './content/posts'
+for (const file of existsSync(postsDir) ? readdirSync(postsDir) : []) {
   if (!file.endsWith('.md')) continue
-  const source = readFileSync(`./content/posts/${file}`, 'utf8')
+  const source = readFileSync(`${postsDir}/${file}`, 'utf8')
   const slug = source.match(/^slug:\s*['"]?([^'"\n]+)['"]?/m)?.[1]
   const date = source.match(/^date:\s*['"]?([^'"\n]+)['"]?/m)?.[1]
   if (slug && date) postDates.set(`${site}/${slug}/`, new Date(date).toISOString())
