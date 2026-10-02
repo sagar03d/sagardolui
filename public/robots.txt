@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.taniarascia.com/sitemap-index.xml
+Sitemap: https://sagardolui.com/sitemap-index.xml

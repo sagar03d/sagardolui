@@ -11,6 +11,17 @@ import { projectsList } from '../data/projectsList'
 import { getSimplifiedPosts, slugify } from '../utils/helpers'
 import config from '../utils/config'
 
+const techStack = [
+  { name: 'Node.js', icon: 'nodedotjs' },
+  { name: 'TypeScript', icon: 'typescript' },
+  { name: 'React', icon: 'react' },
+  { name: 'PostgreSQL', icon: 'postgresql' },
+  { name: 'Redis', icon: 'redis' },
+  { name: 'Docker', icon: 'docker' },
+  { name: 'Google Cloud', icon: 'googlecloud' },
+  { name: 'Laravel', icon: 'laravel' },
+]
+
 const allPosts = await getCollection('posts')
 const sortedPosts = allPosts.sort((a, b) => {
   const dateA = new Date(a.data.date || 0).getTime()
@@ -87,10 +98,18 @@ const latestPosts = getSimplifiedPosts(sortedPosts.slice(0, 4), { thumbnails: tr
         </p>
       </div>
       <div class="hero-image-container">
-        <img src="/ram.png" class="hero-image" alt="Sagar Dolui" />
+        <div class="hero-orbit" style={`--count: ${techStack.length}`}>
+          {techStack.map((tech, i) => (
+            <span class="hero-orbit-badge" style={`--i: ${i}`} title={tech.name}>
+              <img src={`/images/tech/${tech.icon}.svg`} alt={tech.name} width="18" height="18" />
+            </span>
+          ))}
+        </div>
+        <img src="/avatar.svg" class="hero-image" alt="Sagar Dolui" />
         <aside class="hero-bubble">
           📍 Bengaluru, India &bull;{' '}
-          <a href="mailto:sagar03d@gmail.com">sagar03d@gmail.com</a> &bull;{' '}
+          <a href="mailto:sagar03d@gmail.com">sagar03d@gmail.com</a>
+          <br />
           <a href="tel:+919088847921">+91-9088847921</a>
         </aside>
       </div>

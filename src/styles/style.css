@@ -1507,6 +1507,41 @@ ul.hero-eras {
   margin: 0 auto;
 }
 
+/* Tech stack badges spaced evenly around the edge of the hero circle */
+.hero-orbit {
+  --size: 120px;
+  --badge: 26px;
+  position: absolute;
+  top: 0.6rem;
+  left: calc(50% - 15px);
+  transform: translateX(-50%);
+  z-index: 10;
+  height: var(--size);
+  width: var(--size);
+}
+
+.hero-orbit-badge {
+  --angle: calc(var(--i) * 360deg / var(--count) - 90deg);
+  position: absolute;
+  top: calc(50% - var(--badge) / 2);
+  left: calc(50% - var(--badge) / 2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--badge);
+  width: var(--badge);
+  background: #fff;
+  border: 2px solid #1b1b1b;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.15);
+  transform: rotate(var(--angle)) translate(calc(var(--size) / 2)) rotate(calc(-1 * var(--angle)));
+
+  img {
+    height: 60%;
+    width: 60%;
+  }
+}
+
 .hero-bubble {
   display: block;
   position: relative;
@@ -1622,6 +1657,14 @@ time {
       height: 200px;
       width: 200px;
     }
+  }
+
+  .hero-orbit {
+    --size: 200px;
+    --badge: 36px;
+    top: 1rem;
+    left: 0;
+    transform: none;
   }
 
   .hero-image {

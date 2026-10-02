@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 200" role="img" aria-label="Sagar Dolui">
+  <title>Sagar Dolui</title>
+  <g stroke="#1b1b1b" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    <!-- cloud -->
+    <path d="M168 44c-2-14 14-24 26-16 6-10 24-8 26 6 12 0 16 18 4 22h-50c-10 0-12-12-6-12z" fill="#e3e8f8"/>
+    <!-- database -->
+    <g fill="#5acda9">
+      <path d="M14 120v36c0 6 14 10 28 10s28-4 28-10v-36"/>
+      <ellipse cx="42" cy="120" rx="28" ry="10"/>
+      <path d="M14 138c0 6 14 10 28 10s28-4 28-10" fill="none"/>
+    </g>
+    <!-- terminal window, slightly tilted -->
+    <g transform="rotate(-6 130 110)">
+      <rect x="62" y="56" width="148" height="112" rx="12" fill="#232634"/>
+      <path d="M62 68a12 12 0 0 1 12-12h124a12 12 0 0 1 12 12v12H62z" fill="#fede91"/>
+      <circle cx="78" cy="68" r="4" fill="#ff6b6b" stroke-width="2.5"/>
+      <circle cx="92" cy="68" r="4" fill="#ffd166" stroke-width="2.5"/>
+      <circle cx="106" cy="68" r="4" fill="#5acda9" stroke-width="2.5"/>
+    </g>
+  </g>
+  <g transform="rotate(-6 130 110)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-weight="700">
+    <text x="76" y="104" font-size="14" fill="#5acda9">$</text>
+    <text x="90" y="104" font-size="14" fill="#fede91">whoami</text>
+    <text x="76" y="138" font-size="28" fill="#ffffff">Sagar</text>
+    <rect x="169" y="117" width="11" height="23" fill="#fede91"/>
+    <g fill="#8a90a8">
+      <rect x="76" y="150" width="70" height="6" rx="3"/>
+      <rect x="152" y="150" width="36" height="6" rx="3"/>
+    </g>
+  </g>
+</svg>
