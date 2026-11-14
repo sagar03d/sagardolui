@@ -13,7 +13,7 @@ Managing high-frequency online tutoring sessions requires coordination-heavy syn
 
 Every session touches several people and several systems: someone has to book it, someone has to confirm the teacher is free, someone has to check who actually showed up, someone has to bill for it, and the student ideally walks away with notes they can revisit. When those steps live in spreadsheets, chat threads, and a calendar app, the operations team becomes the glue — and glue doesn't scale.
 
-I designed and built **SessionOrbit** as a modern, centralized operations platform to address these pain points. This post goes beyond the feature list and into how the pieces are designed: the architecture, the data model, how scheduling conflicts are prevented at the database level, how attendance and billing are driven by webhooks, how the AI notes pipeline works, and how the collaborative whiteboard stays in sync.
+I designed and built **SessionOrbit** as a modern, centralized operations platform to address these pain points. This post goes beyond the feature list and into how the pieces are designed: the architecture, the data model, how scheduling conflicts are prevented at the database level, how attendance and billing are driven by webhooks, how the AI notes pipeline works, how the collaborative whiteboard stays in sync, and the supporting pieces (permissions, reminders, scaling, and testing) that keep it all trustworthy.
 
 ## Platform Highlights
 
@@ -384,12 +384,156 @@ On the client, a few techniques keep it smooth:
 - **Volatile cursors.** `socket.volatile` lets cursor updates be dropped under pressure — a stale cursor position is useless, so there's no point queuing it.
 - **Snapshotting the log.** For long sessions, periodically collapsing the op log into a snapshot keeps late-join replay fast.
 
+## Roles, Permissions, and the Parent Portal
+
+Four roles share one database: admins, teachers, students, and parents. Each needs a very different slice of the same data. A teacher sees their own schedule and the students they teach. A student sees their own sessions and notes. A parent sees everything about their children and nothing about anyone else's. An admin sees it all.
+
+Scattering `if (user.role === 'teacher')` checks across route handlers works until someone forgets one. I kept authorization in two layers so a single missed check can't leak data.
+
+**Layer 1: a single policy module in the API.** Every route asks the same question, "can this user do this action on this resource?", through one function, so the rules are written down in one place and can be tested exhaustively:
+
+```typescript
+type Action = 'session:read' | 'session:book' | 'session:cancel' | 'notes:read' | 'billing:read';
+
+export async function can(user: User, action: Action, sessionId: string): Promise<boolean> {
+  if (user.role === 'admin') return true;
+
+  const s = await sessionsRepo.get(sessionId);
+  if (!s) return false;
+
+  switch (user.role) {
+    case 'teacher':
+      return s.teacherId === user.id && action !== 'billing:read';
+    case 'student':
+      return s.studentId === user.id && ['session:read', 'notes:read'].includes(action);
+    case 'parent':
+      return (await guardiansRepo.isGuardianOf(user.id, s.studentId)) && action !== 'session:book';
+  }
+}
+```
+
+**Layer 2: row-level security in PostgreSQL** as a safety net. Even if an API route has a bug, the database only returns rows the current user is allowed to see:
+
+```sql
+CREATE TABLE guardians (
+  parent_id   uuid REFERENCES users(id),
+  student_id  uuid REFERENCES users(id),
+  PRIMARY KEY (parent_id, student_id)
+);
+
+ALTER TABLE sessions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY sessions_visibility ON sessions
+  USING (
+    current_setting('app.role') = 'admin'
+    OR teacher_id = current_setting('app.user_id')::uuid
+    OR student_id = current_setting('app.user_id')::uuid
+    OR EXISTS (
+      SELECT 1 FROM guardians g
+      WHERE g.parent_id = current_setting('app.user_id')::uuid
+        AND g.student_id = sessions.student_id
+    )
+  );
+```
+
+Each request runs inside a transaction that first calls `SET LOCAL app.user_id = ...` and `SET LOCAL app.role = ...`. Because they're `LOCAL`, the settings disappear when the transaction ends, so a pooled connection never carries one user's identity into another user's request.
+
+The parent portal falls out of this almost for free. It's mostly read-only views over sessions, attendance, notes, and invoices, filtered by the `guardians` relationship. Before, parents asking "did my child attend on Tuesday?" was a steady stream of messages to the operations team. Now they can answer it themselves.
+
+## Reminders and Notifications
+
+No-shows are expensive. The teacher's time is paid for and the student gets nothing out of it. Reminders are a cheap fix, but they need to be reliable: a reminder that never arrives is bad, and one that arrives three times is worse.
+
+When a session is booked, rescheduled, or cancelled, the same transaction writes rows to a `scheduled_notifications` table (an outbox):
+
+```sql
+CREATE TABLE scheduled_notifications (
+  id          bigserial PRIMARY KEY,
+  session_id  uuid NOT NULL REFERENCES sessions(id),
+  user_id     uuid NOT NULL REFERENCES users(id),
+  kind        text NOT NULL,           -- 'reminder_24h', 'reminder_15m', 'cancelled', ...
+  send_at     timestamptz NOT NULL,
+  sent_at     timestamptz,
+  UNIQUE (session_id, user_id, kind)
+);
+```
+
+A worker polls for due rows and claims them with `FOR UPDATE SKIP LOCKED`, which lets several worker instances run side by side without sending anything twice:
+
+```sql
+UPDATE scheduled_notifications
+SET sent_at = now()
+WHERE id IN (
+  SELECT id FROM scheduled_notifications
+  WHERE sent_at IS NULL AND send_at <= now()
+  ORDER BY send_at
+  LIMIT 100
+  FOR UPDATE SKIP LOCKED
+)
+RETURNING *;
+```
+
+Writing notifications in the **same transaction** as the booking is the important part. If the booking rolls back, the reminders were never scheduled. If it commits, they're guaranteed to exist. Rescheduling deletes the unsent rows for that session and inserts fresh ones, so a student never gets a reminder for the old time. Reminder text is rendered in the recipient's timezone at send time, never at booking time, because the recipient may have changed their timezone setting in between.
+
+## Scaling the Real-Time Layer
+
+One Node process holding every socket works fine at first. It stops working the moment you run a second instance behind a load balancer: a calendar update emitted on instance A never reaches a teacher connected to instance B.
+
+Two changes fixed that:
+
+- **A shared adapter.** Socket.io's Redis adapter relays room broadcasts between instances, so `io.to(room).emit(...)` reaches every connected client no matter which process it landed on.
+- **Emitting after commit, not before.** Events go out only after the database transaction succeeds. If a booking fails on the exclusion constraint, nobody's calendar flickers with a session that never existed.
+
+```typescript
+import { createAdapter } from '@socket.io/redis-adapter';
+import { createClient } from 'redis';
+
+const pub = createClient({ url: process.env.REDIS_URL });
+const sub = pub.duplicate();
+await Promise.all([pub.connect(), sub.connect()]);
+io.adapter(createAdapter(pub, sub));
+
+export async function bookAndBroadcast(input: BookingInput) {
+  const session = await bookSession(input); // throws on conflict, so nothing is emitted
+  io.to(`teacher:${session.teacher_id}`)
+    .to(`student:${session.student_id}`)
+    .to('admins')
+    .emit('calendar:changed', { sessionId: session.id });
+  return session;
+}
+```
+
+The event carries only an ID, not the full session. Clients refetch through the normal REST API, which applies the permission checks above. That keeps the socket layer thin and means a real-time payload can never show someone data the API would have refused.
+
+Reconnects are handled the same way. When a client reconnects after a network blip, it refetches the current state over REST rather than trying to replay missed events. For calendars and rosters that's simpler and always correct. The whiteboard is the exception, since it needs its operation log.
+
+## Testing and Observability
+
+The parts of SessionOrbit that matter most are the ones that are hardest to see go wrong: a double booking, a duplicated invoice, a reminder that never fired. So testing concentrated there.
+
+- **Constraint tests against a real database.** Scheduling tests run against a disposable PostgreSQL instance, not mocks, because the guarantees live in the exclusion constraints and RLS policies. A typical test fires two overlapping bookings in parallel and asserts that exactly one succeeds.
+- **Webhook replay tests.** Recorded webhook payloads are fed through the receiver duplicated, shuffled, and delayed. The assertion is always the same: one attendance outcome and one billing entry per session.
+- **Golden-transcript checks for the AI pipeline.** A small set of sample transcripts runs through the prompt chain whenever prompts or models change. The output is checked structurally (valid JSON, concepts present, summary within length) and reviewed by a person before the change ships.
+- **Policy table tests.** The `can()` function is tested as a full matrix of role × action × relationship, so adding a new action forces a decision for every role.
+
+In production, the most useful signals were business-level rather than CPU graphs:
+
+- Sessions that ended with **no billing entry** after a few minutes (reconciliation failed or never ran).
+- **Webhook signature failures** (usually a rotated secret, occasionally something worse).
+- **Notification lag**: how far behind `send_at` the worker is running.
+- **AI job failures and retries**, tracked per pipeline stage so a bad prompt change shows up at the stage it broke.
+
+Each of these is a simple SQL query on a schedule that alerts when it returns rows. That's cheap to build, and it catches the failures users would otherwise report first.
+
 ## Pitfalls and Lessons Learned
 
 - **Enforce invariants in the database.** Double-booking checks in application code alone kept leaving room for races. The exclusion constraint closed that class of bugs for good.
 - **Assume webhooks are duplicated, delayed, and out of order.** Idempotency keys, an append-only event log, and reconciliation that derives state from events made the pipeline robust to all three.
 - **Store time as `timestamptz`, render in the user's timezone.** Tutoring across regions makes timezone bugs inevitable otherwise.
 - **Keep AI output grounded and asynchronous.** A smaller, staged prompt chain was easier to debug and trust than one large prompt.
+- **Put authorization in two places.** One policy module in the API plus row-level security in Postgres means a single forgotten check doesn't leak another family's data.
+- **Schedule side effects in the same transaction.** An outbox table for reminders kept notifications consistent with bookings through reschedules and rollbacks.
+- **Emit real-time events after commit, and keep them thin.** Sending IDs and letting clients refetch kept sockets consistent with the API's permission rules.
 - **Don't sync pixels.** Operation-based sync with a replayable log made the whiteboard both lighter on bandwidth and easier to recover after reconnects.
 
 ## Key Takeaways
@@ -399,6 +543,7 @@ On the client, a few techniques keep it smooth:
 - Webhook pipelines should verify, deduplicate, record, and defer — in that order.
 - Prompt chains turn "summarize this class" into a series of small, testable, retryable steps.
 - Real-time collaboration works best when you broadcast small operations and treat ephemeral data (like cursors) as droppable.
+- The most valuable alerts are business invariants ("every completed session has a billing entry"), checked with plain SQL.
 
 ## Conclusion
 
